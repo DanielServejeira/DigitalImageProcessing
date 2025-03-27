@@ -48,6 +48,9 @@ type
     MenuItem29: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem30: TMenuItem;
+    MenuItem31: TMenuItem;
+    MenuItem32: TMenuItem;
+    MenuItem33: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
@@ -59,6 +62,7 @@ type
     Separator1: TMenuItem;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
     procedure Image2MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
@@ -83,6 +87,8 @@ type
     procedure MenuItem29Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem30Click(Sender: TObject);
+    procedure MenuItem32Click(Sender: TObject);
+    procedure MenuItem33Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
@@ -283,6 +289,11 @@ end;
 procedure TForm1.Button2Click(Sender: TObject);
 begin
   Close();
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+
 end;
 
 //Evento capturar coordenadas e rgb imagem 1
@@ -554,6 +565,44 @@ begin
 
     Image2.Canvas.Pixels[x,y] := pixelColor;
   end;
+end;
+
+//Operacao bilinearizar
+procedure TForm1.MenuItem32Click(Sender: TObject);
+var
+  i, j, r, g, b: Integer;
+  pixelColor: TColor;
+begin
+  for j:=1 to Image1.Height do
+    for i:=1 to Image1.Width do
+    begin
+    pixelColor := Image1.Canvas.Pixels[i,j];
+    r := GetRValue(pixelColor);
+    g := GetGValue(pixelColor);
+    b := GetBValue(pixelColor);
+
+    if (r+g+b)/3 < 128 then
+      Image2.Canvas.Pixels[i,j] := 0
+    else
+      Image2.Canvas.Pixels[i,j] := RGB(255,255,255);
+    end;
+
+end;
+
+//Operacao laplaciano
+procedure TForm1.MenuItem33Click(Sender: TObject);
+var
+  i, j: Integer;
+begin
+  for j:=1 to Image1.Height-1 do
+    for i:=1 to Image1.Width-1 do
+    begin
+      Image2.Canvas.Pixels[i,j] := Image1.Canvas.Pixels[i,j]*4-
+                                   Image1.Canvas.Pixels[i+1,j]-
+                                   Image1.Canvas.Pixels[i-1,j]-
+                                   Image1.Canvas.Pixels[i,j+1]-
+                                   Image1.Canvas.Pixels[i,j-1];
+    end;
 end;
 
 //Salvar imagem de saida

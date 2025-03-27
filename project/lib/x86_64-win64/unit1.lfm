@@ -7,6 +7,7 @@ object Form1: TForm1
   ClientHeight = 345
   ClientWidth = 858
   Menu = MainMenu1
+  OnCreate = FormCreate
   LCLVersion = '3.8.0.0'
   object Button1: TButton
     Left = 360
@@ -102,7 +103,7 @@ object Form1: TForm1
       end
     end
     object MenuItem5: TMenuItem
-      Caption = 'Operações'
+      Caption = 'Operação'
       object MenuItem6: TMenuItem
         Caption = '&Converter para Cinza'
         OnClick = MenuItem6Click
@@ -199,8 +200,19 @@ object Form1: TForm1
         Caption = 'Equalizar'
         OnClick = MenuItem28Click
       end
+      object MenuItem32: TMenuItem
+        Caption = 'Bilinearizar'
+        OnClick = MenuItem32Click
+      end
+      object MenuItem33: TMenuItem
+        Caption = 'Laplaciano N4(p)'
+        OnClick = MenuItem33Click
+      end
     end
     object MenuItem27: TMenuItem
+      Caption = '&Converter Sistemas de Cor'
+    end
+    object MenuItem31: TMenuItem
       Caption = '&Sobre'
     end
   end

@@ -15,6 +15,8 @@ type
   TForm1 = class(TForm)
     Button1: TButton;
     Button2: TButton;
+    Button3: TButton;
+    Edit1: TEdit;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -23,6 +25,8 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
@@ -51,6 +55,12 @@ type
     MenuItem31: TMenuItem;
     MenuItem32: TMenuItem;
     MenuItem33: TMenuItem;
+    MenuItem34: TMenuItem;
+    MenuItem35: TMenuItem;
+    MenuItem36: TMenuItem;
+    MenuItem37: TMenuItem;
+    MenuItem38: TMenuItem;
+    MenuItem39: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
@@ -62,11 +72,19 @@ type
     Separator1: TMenuItem;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Edit1Change(Sender: TObject);
+    procedure Edit1KeyPress(Sender: TObject; var Key: char);
     procedure FormCreate(Sender: TObject);
+<<<<<<< Updated upstream
     procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
     procedure Image2MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
+=======
+    procedure Image1MouseMove(Sender: TObject; X, Y: Integer);
+    procedure Image2MouseMove(Sender: TObject; X, Y: Integer);
+>>>>>>> Stashed changes
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
     procedure MenuItem12Click(Sender: TObject);
@@ -89,6 +107,10 @@ type
     procedure MenuItem30Click(Sender: TObject);
     procedure MenuItem32Click(Sender: TObject);
     procedure MenuItem33Click(Sender: TObject);
+    procedure MenuItem35Click(Sender: TObject);
+    procedure MenuItem36Click(Sender: TObject);
+    procedure MenuItem37Click(Sender: TObject);
+    procedure MenuItem39Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
@@ -289,6 +311,52 @@ end;
 procedure TForm1.Button2Click(Sender: TObject);
 begin
   Close();
+end;
+
+//Botao definir
+procedure TForm1.Button3Click(Sender: TObject);
+var
+  r, g, b, i, j, input: Integer;
+  pixelColor: TColor;
+begin
+  if TryStrToInt(Edit1.Text, input) then
+  begin
+    if input > 255 then Label6.Visible := True
+    else
+      Label6.Visible := False;
+      Label5.Visible := False;
+      Edit1.Visible := False;
+      Button3.Visible := False;
+
+      for j:=1 to Image1.Height do
+        for i:=1 to Image1.Width do
+        begin
+        pixelColor := Image1.Canvas.Pixels[i,j];
+        r := GetRValue(pixelColor);
+        g := GetGValue(pixelColor);
+        b := GetBValue(pixelColor);
+
+        if (r+g+b)/3 < input then
+          Image2.Canvas.Pixels[i,j] := 0
+        else
+          Image2.Canvas.Pixels[i,j] := RGB(r,g,b);
+        end;
+  end;
+end;
+
+procedure TForm1.Edit1Change(Sender: TObject);
+begin
+
+end;
+
+//Evento Edit1 KeyPress
+procedure TForm1.Edit1KeyPress(Sender: TObject; var Key: char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    Button3.SetFocus;
+  end;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -567,7 +635,7 @@ begin
   end;
 end;
 
-//Operacao bilinearizar
+//Operacao binarizar
 procedure TForm1.MenuItem32Click(Sender: TObject);
 var
   i, j, r, g, b: Integer;
@@ -603,6 +671,71 @@ begin
                                    Image1.Canvas.Pixels[i,j+1]-
                                    Image1.Canvas.Pixels[i,j-1];
     end;
+end;
+
+//Operacao detectar bordas por sobel (horizontal)
+procedure TForm1.MenuItem35Click(Sender: TObject);
+var
+  i, j: Integer;
+begin
+  for i:=1 to Image1.Width-1 do
+    for j:=1 to Image1.Height-1 do
+    begin
+    Image2.Canvas.Pixels[i,j] := Image1.Canvas.Pixels[i,j+1]*2 + Image1.Canvas.Pixels[i-1,j+1] + Image1.Canvas.Pixels[i+1,j+1] -
+                                 Image1.Canvas.Pixels[i,j-1]*2 - Image1.Canvas.Pixels[i-1,j-1] - Image1.Canvas.Pixels[i+1,j-1];
+    end;
+end;
+
+//Operacao detectar bordas por sobel (vertical)
+procedure TForm1.MenuItem36Click(Sender: TObject);
+var
+  i, j: Integer;
+begin
+  for j:=1 to Image1.Height-1 do
+    for i:=1 to Image1.Width-1 do
+    begin
+    Image2.Canvas.Pixels[i,j] := Image1.Canvas.Pixels[i+1,j]*2 + Image1.Canvas.Pixels[i+1,j+1] + Image1.Canvas.Pixels[i+1,j-1] -
+                                 Image1.Canvas.Pixels[i-1,j]*2 - Image1.Canvas.Pixels[i-1,j+1] - Image1.Canvas.Pixels[i-1,j-1];
+    end;
+end;
+
+
+//Operacao magnitude
+procedure TForm1.MenuItem37Click(Sender: TObject);
+var
+  i, j: Integer;
+  GX, GY, mag, MagMax, MagMin: Double;
+begin
+  MagMax := 0;
+  MagMin := 360;
+
+  for i:=1 to Image1.Width-1 do
+    for j:=1 to Image1.Height-1 do
+    begin
+      GX := (Image1.Canvas.Pixels[i,j+1]*2 + Image1.Canvas.Pixels[i-1,j+1] + Image1.Canvas.Pixels[i+1,j+1] -
+          Image1.Canvas.Pixels[i,j-1]*2 - Image1.Canvas.Pixels[i-1,j-1] - Image1.Canvas.Pixels[i+1,j-1])/4;
+
+      GY := (Image1.Canvas.Pixels[i+1,j]*2 + Image1.Canvas.Pixels[i+1,j+1] + Image1.Canvas.Pixels[i+1,j-1] -
+             Image1.Canvas.Pixels[i-1,j]*2 - Image1.Canvas.Pixels[i-1,j+1] - Image1.Canvas.Pixels[i-1,j-1])/4;
+
+      mag := sqrt(GX*GX + GY*GY);
+      mag := round((mag-MagMin) / (MagMax-MagMin))*255;
+
+      if mag > MagMax then MagMax := mag;
+      if mag < MagMin then MagMin := mag;
+
+      Image2.Canvas.Pixels[i,j] := RGB(round(mag), round(mag), round(mag));
+    end;
+end;
+
+//Operacao limiarizar
+procedure TForm1.MenuItem39Click(Sender: TObject);
+begin
+  Edit1.Visible := True;
+  Edit1.SetFocus;
+
+  Label5.Visible := True;
+  Button3.Visible := True;
 end;
 
 //Salvar imagem de saida

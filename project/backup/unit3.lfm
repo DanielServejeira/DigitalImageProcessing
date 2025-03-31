@@ -1,0 +1,37 @@
+object Form3: TForm3
+  Left = 681
+  Height = 84
+  Top = 398
+  Width = 269
+  Caption = 'Form3'
+  ClientHeight = 84
+  ClientWidth = 269
+  OnShow = FormShow
+  LCLVersion = '3.8.0.0'
+  object Label1: TLabel
+    Left = 24
+    Height = 15
+    Top = 32
+    Width = 46
+    Caption = 'Defina T:'
+  end
+  object Edit1: TEdit
+    Left = 80
+    Height = 23
+    Top = 32
+    Width = 56
+    MaxLength = 3
+    NumbersOnly = True
+    TabOrder = 0
+    OnChange = Edit1Change
+    OnKeyPress = Edit1KeyPress
+  end
+  object Button1: TButton
+    Left = 176
+    Height = 39
+    Top = 24
+    Width = 70
+    Caption = 'Button1'
+    TabOrder = 1
+  end
+end

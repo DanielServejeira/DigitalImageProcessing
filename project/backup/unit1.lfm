@@ -1,10 +1,15 @@
 object Form1: TForm1
-  Left = 597
-  Height = 345
-  Top = 371
+  Left = 712
+  Height = 351
+  Top = 356
   Width = 858
+<<<<<<< Updated upstream
   Caption = 'Form1'
   ClientHeight = 345
+=======
+  Caption = 'Processamento Digital de Imagens'
+  ClientHeight = 351
+>>>>>>> Stashed changes
   ClientWidth = 858
   Menu = MainMenu1
   OnCreate = FormCreate
@@ -84,6 +89,52 @@ object Form1: TForm1
     Height = 1
     Top = 289
     Width = 1
+  end
+  object Edit1: TEdit
+    Left = 360
+    Height = 23
+    Top = 208
+    Width = 75
+    MaxLength = 3
+    NumbersOnly = True
+    TabOrder = 2
+    Visible = False
+    OnChange = Edit1Change
+    OnKeyPress = Edit1KeyPress
+  end
+  object Label5: TLabel
+    Left = 376
+    Height = 15
+    Top = 192
+    Width = 46
+    Caption = 'Defina T:'
+    Visible = False
+  end
+  object Button3: TButton
+    Left = 360
+    Height = 27
+    Top = 240
+    Width = 75
+    Caption = 'Definir'
+    TabOrder = 3
+    Visible = False
+    OnClick = Button3Click
+  end
+  object Label6: TLabel
+    Left = 352
+    Height = 30
+    Top = 64
+    Width = 88
+    Alignment = taCenter
+    Caption = 'Valor de'#13#10'entrada inválido.'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clRed
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentBidiMode = False
+    ParentFont = False
+    Visible = False
+    WordWrap = True
   end
   object MainMenu1: TMainMenu
     Left = 792
@@ -201,12 +252,34 @@ object Form1: TForm1
         OnClick = MenuItem28Click
       end
       object MenuItem32: TMenuItem
-        Caption = 'Bilinearizar'
+        Caption = 'Binarizar'
         OnClick = MenuItem32Click
       end
       object MenuItem33: TMenuItem
         Caption = 'Laplaciano N4(p)'
         OnClick = MenuItem33Click
+      end
+      object MenuItem34: TMenuItem
+        Caption = 'Detectar Bordas por Sobel'
+        object MenuItem35: TMenuItem
+          Caption = 'Horizontal'
+          OnClick = MenuItem35Click
+        end
+        object MenuItem36: TMenuItem
+          Caption = 'Vertical'
+          OnClick = MenuItem36Click
+        end
+      end
+      object MenuItem37: TMenuItem
+        Caption = 'Magnitude'
+        OnClick = MenuItem37Click
+      end
+      object MenuItem38: TMenuItem
+        Caption = 'Comprimir Escala Dinâmica'
+      end
+      object MenuItem39: TMenuItem
+        Caption = 'Limiarizar'
+        OnClick = MenuItem39Click
       end
     end
     object MenuItem27: TMenuItem

@@ -42,6 +42,23 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
       </Unit>
+<<<<<<< Updated upstream
+=======
+      <Unit>
+        <Filename Value="unit2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form2"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unit2"/>
+      </Unit>
+      <Unit>
+        <Filename Value="unit3.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form3"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unit3"/>
+      </Unit>
+>>>>>>> Stashed changes
     </Units>
   </ProjectOptions>
   <CompilerOptions>

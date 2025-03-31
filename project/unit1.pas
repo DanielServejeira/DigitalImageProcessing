@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, Menus,
-  StdCtrls, Windows;
+  StdCtrls, Windows, Unit2;
 
 type
 
@@ -63,9 +63,9 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
+    procedure Image1MouseMove(Sender: TObject; X, Y: Integer
       );
-    procedure Image2MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
+    procedure Image2MouseMove(Sender: TObject; X, Y: Integer
       );
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
@@ -83,6 +83,7 @@ type
     procedure MenuItem24Click(Sender: TObject);
     procedure MenuItem25Click(Sender: TObject);
     procedure MenuItem26Click(Sender: TObject);
+    procedure MenuItem27Click(Sender: TObject);
     procedure MenuItem28Click(Sender: TObject);
     procedure MenuItem29Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
@@ -242,6 +243,13 @@ begin
 
 end;
 
+//Converter sistemas de cor
+procedure TForm1.MenuItem27Click(Sender: TObject);
+begin
+  Form2 := TForm2.Create(Self);
+  Form2.Show;
+end;
+
 
 //Operacao equalizar
 procedure TForm1.MenuItem28Click(Sender: TObject);
@@ -297,7 +305,7 @@ begin
 end;
 
 //Evento capturar coordenadas e rgb imagem 1
-procedure TForm1.Image1MouseMove(Sender: TObject; Shift: TShiftState; x,y: Integer);
+procedure TForm1.Image1MouseMove(Sender: TObject; x,y: Integer);
 var
   pixelColor: TColor;
   r, g, b: Byte;
@@ -314,7 +322,7 @@ begin
 end;
 
 //Evento capturar coordenadas e rgb imagem 2
-procedure TForm1.Image2MouseMove(Sender: TObject; Shift: TShiftState; x,y: Integer);
+procedure TForm1.Image2MouseMove(Sender: TObject; x,y: Integer);
 var
   pixelColor: TColor;
   r, g, b: Byte;

@@ -3,7 +3,7 @@ object Form1: TForm1
   Height = 345
   Top = 371
   Width = 858
-  Caption = 'Form1'
+  Caption = 'Processamento Digital de Imagens'
   ClientHeight = 345
   ClientWidth = 858
   Menu = MainMenu1
@@ -211,6 +211,7 @@ object Form1: TForm1
     end
     object MenuItem27: TMenuItem
       Caption = '&Converter Sistemas de Cor'
+      OnClick = MenuItem27Click
     end
     object MenuItem31: TMenuItem
       Caption = '&Sobre'

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, Menus,
-  StdCtrls, Windows;
+  StdCtrls, Windows, Unit2;
 
 type
 
@@ -83,6 +83,7 @@ type
     procedure MenuItem24Click(Sender: TObject);
     procedure MenuItem25Click(Sender: TObject);
     procedure MenuItem26Click(Sender: TObject);
+    procedure MenuItem27Click(Sender: TObject);
     procedure MenuItem28Click(Sender: TObject);
     procedure MenuItem29Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
@@ -240,6 +241,13 @@ end;
 procedure TForm1.MenuItem26Click(Sender: TObject);
 begin
 
+end;
+
+//Converter sistemas de cor
+procedure TForm1.MenuItem27Click(Sender: TObject);
+begin
+  Form2 := TForm2.Create(Self);
+  Form2.Show;
 end;
 
 
@@ -593,16 +601,10 @@ end;
 procedure TForm1.MenuItem33Click(Sender: TObject);
 var
   i, j: Integer;
-  pixelColor: TColor;
 begin
   for j:=1 to Image1.Height-1 do
     for i:=1 to Image1.Width-1 do
     begin
-      pixelColor := Image1.Canvas.Pixels[i,j];
-      r := GetRValue(pixelColor);
-      g := GetGValue(pixelColor);
-      b := GetBValue(pixelColor);
-
       Image2.Canvas.Pixels[i,j] := Image1.Canvas.Pixels[i,j]*4-
                                    Image1.Canvas.Pixels[i+1,j]-
                                    Image1.Canvas.Pixels[i-1,j]-

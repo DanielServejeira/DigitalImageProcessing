@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 895
+  Left = 454
   Height = 393
-  Top = 258
+  Top = 337
   Width = 910
   Caption = 'Processamento Digital de Imagens'
   ClientHeight = 393
@@ -104,7 +104,6 @@ object Form1: TForm1
     TabOrder = 3
     Visible = False
     OnChange = Edit1Change
-    OnKeyPress = Edit1KeyPress
   end
   object Label5: TLabel
     Left = 394
@@ -149,7 +148,6 @@ object Form1: TForm1
     end
     object MenuItem5: TMenuItem
       Caption = 'Operação'
-      OnClick = MenuItem5Click
       object MenuItem6: TMenuItem
         Caption = '&Converter para Cinza'
         OnClick = MenuItem6Click

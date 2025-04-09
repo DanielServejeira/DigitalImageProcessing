@@ -263,8 +263,42 @@ end;
 
 //Operacao equalizar
 procedure TForm1.MenuItem28Click(Sender: TObject);
+var
+  i, j, gray: Integer;
+  hist, acumFreq, newValue: array[0..255] of Integer;
+  pixelColor: TColor;
 begin
+  for i:=0 to 255 do
+  begin
+    hist[i] := 0;
+    acumFreq[i] := 0;
+  end;
 
+  for i:=0 to 255 do
+    for j:=0 to 255 do
+    begin
+      pixelColor := Image2.Canvas.Pixels[i,j];
+      gray := GetRValue(pixelColor);
+      hist[gray] := hist[gray] + 1;
+    end;
+
+  acumFreq[0] := hist[0];
+  for i:=1 to 255 do
+  begin
+    acumFreq[i] := acumFreq[i-1] + hist[i];
+  end;
+
+  for i:=0 to 255 do
+  begin
+    newValue[i] := max(0, round((255*acumFreq[i])/(Image1.Height*Image1.Width)));
+  end;
+
+  for j:=0 to Image1.Height do
+    for i:=0 to Image1.Width do
+    begin
+      pixelColor := Image1.Canvas.Pixels[i,j];
+      Image2.Canvas.Pixels[i,j] := RGB(newValue[pixelColor], newValue[pixelColor], newValue[pixelColor]);
+    end;
 end;
 
 //Operacao gerar ruido cores aleatorias (10 por cento)
@@ -747,15 +781,13 @@ begin
       end;
 end;
 
+//Menu operacao
 procedure TForm1.MenuItem5Click(Sender: TObject);
 begin
-  TForm1.Visible := false;
-  Image1.Visible := true;
-  Image2.Visible := true;
-  Label1.Visible := true;
-  Label2.Visible := true;
-  Button1.Visible := true;
-  Button2.Visible := true;
+  LabelWarning.Visible := false;
+  Label5.Visible := false;
+  Edit1.Visible := false;
+  Button3.Visible := false;
 end;
 
 //Operacao converte para cinza

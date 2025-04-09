@@ -63,9 +63,9 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure Image1MouseMove(Sender: TObject; X, Y: Integer
+    procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
-    procedure Image2MouseMove(Sender: TObject; X, Y: Integer
+    procedure Image2MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
@@ -305,7 +305,7 @@ begin
 end;
 
 //Evento capturar coordenadas e rgb imagem 1
-procedure TForm1.Image1MouseMove(Sender: TObject; x,y: Integer);
+procedure TForm1.Image1MouseMove(Sender: TObject; Shift: TShiftState; x,y: Integer);
 var
   pixelColor: TColor;
   r, g, b: Byte;
@@ -322,7 +322,7 @@ begin
 end;
 
 //Evento capturar coordenadas e rgb imagem 2
-procedure TForm1.Image2MouseMove(Sender: TObject; x,y: Integer);
+procedure TForm1.Image2MouseMove(Sender: TObject; Shift: TShiftState; x,y: Integer);
 var
   pixelColor: TColor;
   r, g, b: Byte;

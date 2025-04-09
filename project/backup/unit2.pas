@@ -263,14 +263,17 @@ begin
     else if (InputComboBox = 'HSV') and (OutputComboBox = 'RGB') then
     begin
       hue := Text1;
-      saturation := Text2 / 100;
-      value := Text3 / 100;
+      saturation := Text2/100;
+      value := Text3/100;
 
       c := value * saturation;
-      x := c * (1 - abs(frac(hue / 60) * 2 - 1));  // Corrigido o cálculo de x
+      x := c * (1-(hue/60) mod 2 - 1);
+      if x < 0 then
+      begin
+        x = x * (-1);
+      end;
       m := value - c;
 
-      // Determina as cores com base no valor de hue
       if (hue >= 0) and (hue < 60) then
       begin
         red := c;
@@ -308,17 +311,10 @@ begin
         blue := x;
       end;
 
-      // Ajusta os valores para o intervalo de 0 a 255
-      red := (red + m) * 255;
-      green := (green + m) * 255;
-      blue := (blue + m) * 255;
+      red := (red+m)*255;
+      green := (green+m)*255;
+      blue := (blue+m)*255;
 
-      // Garante que os valores fiquem dentro do intervalo [0, 255]
-      if red < 0 then red := 0 else if red > 255 then red := 255;
-      if green < 0 then green := 0 else if green > 255 then green := 255;
-      if blue < 0 then blue := 0 else if blue > 255 then blue := 255;
-
-      // Converte os valores para inteiros e exibe no campo de texto
       Output1 := IntToStr(Round(red));
       Output2 := IntToStr(Round(green));
       Output3 := IntToStr(Round(blue));
@@ -327,7 +323,6 @@ begin
       Edit5.Text := Output2;
       Edit6.Text := Output3;
     end
-
     else
     begin
       Edit4.Text := Edit1.Text;

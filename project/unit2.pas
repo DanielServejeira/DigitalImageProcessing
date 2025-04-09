@@ -267,7 +267,11 @@ begin
       value := Text3/100;
 
       c := value * saturation;
-       x := c * (1-(hue/60) mod 2 - 1);
+      x := c * (1-(hue/60) mod 2 - 1);
+      if x < 0 then
+      begin
+        x := x * (-1);
+      end;
       m := value - c;
 
       if (hue >= 0) and (hue < 60) then

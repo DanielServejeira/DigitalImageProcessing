@@ -4,8 +4,8 @@ object Form2: TForm2
   Top = 302
   Width = 384
   Caption = 'Conversor de Sistemas de Cor'
-  ClientHeight = 539
-  ClientWidth = 384
+  ClientHeight = 0
+  ClientWidth = 0
   OnShow = FormShow
   LCLVersion = '3.8.0.0'
   object Label1: TLabel

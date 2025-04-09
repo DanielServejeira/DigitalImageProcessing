@@ -1,0 +1,222 @@
+object Form1: TForm1
+  Left = 597
+  Height = 345
+  Top = 371
+  Width = 858
+  Caption = 'Form1'
+  ClientHeight = 345
+  ClientWidth = 858
+  Menu = MainMenu1
+  LCLVersion = '3.8.0.0'
+  object Button1: TButton
+    Left = 360
+    Height = 65
+    Top = 112
+    Width = 75
+    Caption = '<--'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -37
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 0
+    OnClick = Button1Click
+  end
+  object Image1: TImage
+    Left = 36
+    Height = 240
+    Top = 32
+    Width = 303
+    OnMouseMove = Image1MouseMove
+  end
+  object Image2: TImage
+    Left = 456
+    Height = 240
+    Top = 32
+    Width = 303
+    OnMouseMove = Image2MouseMove
+  end
+  object Label1: TLabel
+    Left = 38
+    Height = 15
+    Top = 14
+    Width = 47
+    Caption = 'Entrada'
+    Font.CharSet = ANSI_CHARSET
+    Font.Name = 'Segoe UI Black'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Button2: TButton
+    Left = 360
+    Height = 38
+    Top = 289
+    Width = 75
+    Caption = 'Sair'
+    TabOrder = 1
+    OnClick = Button2Click
+  end
+  object Label2: TLabel
+    Left = 456
+    Height = 15
+    Top = 14
+    Width = 33
+    Caption = 'Saída'
+    Font.CharSet = ANSI_CHARSET
+    Font.Name = 'Segoe UI Black'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 36
+    Height = 1
+    Top = 289
+    Width = 1
+  end
+  object Label4: TLabel
+    Left = 457
+    Height = 1
+    Top = 289
+    Width = 1
+  end
+  object MainMenu1: TMainMenu
+    Left = 792
+    Top = 32
+    object MenuItem1: TMenuItem
+      Caption = 'Arquivo'
+      object MenuItem2: TMenuItem
+        Caption = '&Abrir'
+        OnClick = MenuItem2Click
+      end
+      object MenuItem3: TMenuItem
+        Caption = '&Salvar'
+        OnClick = MenuItem3Click
+      end
+      object Separator1: TMenuItem
+        Caption = '-'
+      end
+    end
+    object MenuItem5: TMenuItem
+      Caption = 'Operações'
+      object MenuItem6: TMenuItem
+        Caption = '&Converter para Cinza'
+        OnClick = MenuItem6Click
+      end
+      object MenuItem7: TMenuItem
+        Caption = '&Negativar'
+        OnClick = MenuItem7Click
+        object MenuItem16: TMenuItem
+          Caption = 'C&inza'
+          OnClick = MenuItem16Click
+        end
+        object MenuItem17: TMenuItem
+          Caption = 'C&olorida'
+          OnClick = MenuItem17Click
+        end
+      end
+      object MenuItem9: TMenuItem
+        Caption = 'S&eparar Canal'
+        object MenuItem10: TMenuItem
+          Caption = 'Vermelho'
+          OnClick = MenuItem10Click
+        end
+        object MenuItem11: TMenuItem
+          Caption = 'Verde'
+          OnClick = MenuItem11Click
+        end
+        object MenuItem12: TMenuItem
+          Caption = 'Azul'
+          OnClick = MenuItem12Click
+        end
+        object MenuItem13: TMenuItem
+          Caption = 'Cinza/Vermelho'
+          OnClick = MenuItem13Click
+        end
+        object MenuItem14: TMenuItem
+          Caption = 'Cinza/Verde'
+          OnClick = MenuItem14Click
+        end
+        object MenuItem15: TMenuItem
+          Caption = 'Cinza/Azul'
+          OnClick = MenuItem15Click
+        end
+      end
+      object MenuItem8: TMenuItem
+        Caption = '&Filtro'
+        object MenuItem18: TMenuItem
+          Caption = 'Média - N&4(p)'
+          OnClick = MenuItem18Click
+        end
+        object MenuItem4: TMenuItem
+          Caption = 'Média - N&8(p)'
+          OnClick = MenuItem4Click
+        end
+        object MenuItem19: TMenuItem
+          Caption = 'Mediana &3x3'
+          OnClick = MenuItem19Click
+        end
+      end
+      object MenuItem20: TMenuItem
+        Caption = 'In&verter'
+        object MenuItem21: TMenuItem
+          Caption = 'Horizontal'
+          OnClick = MenuItem21Click
+        end
+        object MenuItem22: TMenuItem
+          Caption = 'Vertical'
+          OnClick = MenuItem22Click
+        end
+      end
+      object MenuItem23: TMenuItem
+        Caption = 'In&terpolar'
+        object MenuItem24: TMenuItem
+          Caption = 'Vizinho Mais Próximo'
+          OnClick = MenuItem24Click
+        end
+        object MenuItem25: TMenuItem
+          Caption = 'Bilinear'
+          OnClick = MenuItem25Click
+        end
+      end
+      object MenuItem26: TMenuItem
+        Caption = 'Gerar Ruído'
+        OnClick = MenuItem26Click
+        object MenuItem29: TMenuItem
+          Caption = 'Cores Aleatórias'
+          OnClick = MenuItem29Click
+        end
+        object MenuItem30: TMenuItem
+          Caption = 'Sal e Pimenta'
+          OnClick = MenuItem30Click
+        end
+      end
+      object MenuItem28: TMenuItem
+        Caption = 'Equalizar'
+        OnClick = MenuItem28Click
+      end
+      object MenuItem31: TMenuItem
+        Caption = 'Binarizar'
+        OnClick = MenuItem31Click
+      end
+      object MenuItem32: TMenuItem
+        Caption = 'Realçar - Laplaciano N4(p)'
+      end
+    end
+    object MenuItem27: TMenuItem
+      Caption = '&Sobre'
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 792
+    Top = 96
+  end
+  object SaveDialog1: TSaveDialog
+    Left = 792
+    Top = 160
+  end
+end

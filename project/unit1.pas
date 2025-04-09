@@ -263,8 +263,43 @@ end;
 
 //Operacao equalizar
 procedure TForm1.MenuItem28Click(Sender: TObject);
+var
+  i, j, gray: Integer;
+  hist, acumFreq, newValue: array[0..255] of Integer;
+  pixelColor: TColor;
 begin
+  for i:=0 to 255 do
+  begin
+    hist[i] := 0;
+    acumFreq[i] := 0;
+  end;
 
+  for i:=0 to 255 do
+    for j:=0 to 255 do
+    begin
+      pixelColor := Image2.Canvas.Pixels[i,j];
+      gray := GetRValue(pixelColor);
+      hist[gray] := hist[gray] + 1;
+    end;
+
+  acumFreq[0] := hist[0];
+  for i:=1 to 255 do
+  begin
+    acumFreq[i] := acumFreq[i-1] + hist[i];
+  end;
+
+  for i:=0 to 255 do
+  begin
+    newValue[i] := max(0, round((255*acumFreq[i])/(Image1.Height*Image1.Width)));
+  end;
+
+  for j:=0 to Image1.Height do
+    for i:=0 to Image1.Width do
+    begin
+      pixelColor := Image1.Canvas.Pixels[i,j];
+      gray := GetRValue(pixelColor);
+      Image2.Canvas.Pixels[i,j] := RGB(newValue[gray], newValue[gray], newValue[gray]);
+    end;
 end;
 
 //Operacao gerar ruido cores aleatorias (10 por cento)

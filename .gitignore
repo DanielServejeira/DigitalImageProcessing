@@ -1,0 +1,19 @@
+# Lazarus
+.lazarus
+.lpi
+.lpr
+.ali
+.dcu
+.o
+.cfg
+.gdb
+.suo
+*.ppu
+*.dof
+*.bak
+*.exe
+*.res
+
+# Ignorar backups e arquivos de configuração específicos
+project/backup/*
+project/lib/*

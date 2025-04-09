@@ -63,9 +63,9 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
+    procedure Image1MouseMove(Sender: TObject; X, Y: Integer
       );
-    procedure Image2MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
+    procedure Image2MouseMove(Sender: TObject; X, Y: Integer
       );
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);

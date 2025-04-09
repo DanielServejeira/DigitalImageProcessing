@@ -1,16 +1,16 @@
 object Form1: TForm1
-  Left = 597
-  Height = 345
-  Top = 371
-  Width = 858
+  Left = 895
+  Height = 393
+  Top = 258
+  Width = 910
   Caption = 'Processamento Digital de Imagens'
-  ClientHeight = 345
-  ClientWidth = 858
+  ClientHeight = 393
+  ClientWidth = 910
   Menu = MainMenu1
   OnCreate = FormCreate
   LCLVersion = '3.8.0.0'
   object Button1: TButton
-    Left = 360
+    Left = 392
     Height = 65
     Top = 112
     Width = 75
@@ -32,7 +32,7 @@ object Form1: TForm1
     OnMouseMove = Image1MouseMove
   end
   object Image2: TImage
-    Left = 456
+    Left = 512
     Height = 240
     Top = 32
     Width = 303
@@ -52,16 +52,16 @@ object Form1: TForm1
     ParentFont = False
   end
   object Button2: TButton
-    Left = 360
+    Left = 392
     Height = 38
-    Top = 289
+    Top = 336
     Width = 75
     Caption = 'Sair'
     TabOrder = 1
     OnClick = Button2Click
   end
   object Label2: TLabel
-    Left = 456
+    Left = 512
     Height = 15
     Top = 14
     Width = 33
@@ -80,13 +80,58 @@ object Form1: TForm1
     Width = 1
   end
   object Label4: TLabel
-    Left = 457
+    Left = 465
     Height = 1
     Top = 289
     Width = 1
   end
+  object Button3: TButton
+    Left = 393
+    Height = 37
+    Top = 253
+    Width = 75
+    Caption = 'Definir'
+    TabOrder = 2
+    Visible = False
+    OnClick = Button3Click
+  end
+  object Edit1: TEdit
+    Left = 393
+    Height = 23
+    Top = 224
+    Width = 75
+    NumbersOnly = True
+    TabOrder = 3
+    Visible = False
+    OnChange = Edit1Change
+    OnKeyPress = Edit1KeyPress
+  end
+  object Label5: TLabel
+    Left = 394
+    Height = 15
+    Top = 201
+    Width = 47
+    Caption = 'Defina T:'
+    Visible = False
+  end
+  object LabelWarning: TLabel
+    Left = 360
+    Height = 30
+    Top = 39
+    Width = 130
+    Alignment = taCenter
+    Caption = 'Valor de entrada inválido'#13#10'(max = 255)'
+    Color = clBlack
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clRed
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+    Visible = False
+  end
   object MainMenu1: TMainMenu
-    Left = 792
+    Left = 848
     Top = 32
     object MenuItem1: TMenuItem
       Caption = 'Arquivo'
@@ -104,6 +149,7 @@ object Form1: TForm1
     end
     object MenuItem5: TMenuItem
       Caption = 'Operação'
+      OnClick = MenuItem5Click
       object MenuItem6: TMenuItem
         Caption = '&Converter para Cinza'
         OnClick = MenuItem6Click
@@ -208,6 +254,10 @@ object Form1: TForm1
         Caption = 'Laplaciano N4(p)'
         OnClick = MenuItem33Click
       end
+      object MenuItem34: TMenuItem
+        Caption = 'Limiarizar'
+        OnClick = MenuItem34Click
+      end
     end
     object MenuItem27: TMenuItem
       Caption = '&Converter Sistemas de Cor'
@@ -218,11 +268,11 @@ object Form1: TForm1
     end
   end
   object OpenDialog1: TOpenDialog
-    Left = 792
+    Left = 848
     Top = 96
   end
   object SaveDialog1: TSaveDialog
-    Left = 792
+    Left = 848
     Top = 160
   end
 end

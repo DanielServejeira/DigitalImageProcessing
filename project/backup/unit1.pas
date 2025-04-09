@@ -15,6 +15,8 @@ type
   TForm1 = class(TForm)
     Button1: TButton;
     Button2: TButton;
+    Button3: TButton;
+    Edit1: TEdit;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -23,6 +25,8 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
+    Label5: TLabel;
+    LabelWarning: TLabel;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
@@ -51,6 +55,7 @@ type
     MenuItem31: TMenuItem;
     MenuItem32: TMenuItem;
     MenuItem33: TMenuItem;
+    MenuItem34: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
@@ -62,10 +67,13 @@ type
     Separator1: TMenuItem;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Edit1Change(Sender: TObject);
+    procedure Edit1KeyPress(Sender: TObject; var Key: char);
     procedure FormCreate(Sender: TObject);
-    procedure Image1MouseMove(Sender: TObject; X, Y: Integer
+    procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
-    procedure Image2MouseMove(Sender: TObject; X, Y: Integer
+    procedure Image2MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
@@ -90,8 +98,10 @@ type
     procedure MenuItem30Click(Sender: TObject);
     procedure MenuItem32Click(Sender: TObject);
     procedure MenuItem33Click(Sender: TObject);
+    procedure MenuItem34Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
+    procedure MenuItem5Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
     procedure MenuItem8Click(Sender: TObject);
@@ -297,6 +307,52 @@ end;
 procedure TForm1.Button2Click(Sender: TObject);
 begin
   Close();
+end;
+
+//Botao definir
+procedure TForm1.Button3Click(Sender: TObject);
+var
+  r, g, b, i, j, input: Integer;
+  pixelColor: TColor;
+begin
+  if TryStrToInt(Edit1.Text, input) then
+  begin
+    if input > 255 then
+    begin
+      LabelWarning.Visible := True
+    end
+    else
+      LabelWarning.Visible := False;
+      Label5.Visible := False;
+      Edit1.Visible := False;
+      Button3.Visible := False;
+
+      for j:=1 to Image1.Height do
+        for i:=1 to Image1.Width do
+        begin
+        pixelColor := Image1.Canvas.Pixels[i,j];
+        r := GetRValue(pixelColor);
+        g := GetGValue(pixelColor);
+        b := GetBValue(pixelColor);
+
+        if (r+g+b)/3 < input then
+          Image2.Canvas.Pixels[i,j] := 0
+        else
+          Image2.Canvas.Pixels[i,j] := RGB(r,g,b);
+        end;
+  end;
+end;
+
+//Caixa de texto
+procedure TForm1.Edit1Change(Sender: TObject);
+begin
+
+end;
+
+//Evento caixa de texto
+procedure TForm1.Edit1KeyPress(Sender: TObject; var Key: char);
+begin
+  if Key = #13 then Button3.Click;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -613,6 +669,16 @@ begin
     end;
 end;
 
+//Operacao limiarizar
+procedure TForm1.MenuItem34Click(Sender: TObject);
+  begin
+    Edit1.Visible := True;
+    Edit1.SetFocus;
+
+    Label5.Visible := True;
+    Button3.Visible := True;
+  end;
+
 //Salvar imagem de saida
 procedure TForm1.MenuItem3Click(Sender: TObject);
 begin
@@ -679,6 +745,17 @@ begin
         Image2.Canvas.Pixels[i,j] := RGB(round(somaR/9),round(SomaG/9),round(SomaB/9));
 
       end;
+end;
+
+procedure TForm1.MenuItem5Click(Sender: TObject);
+begin
+  TForm1.Visible := false;
+  Image1.Visible := true;
+  Image2.Visible := true;
+  Label1.Visible := true;
+  Label2.Visible := true;
+  Button1.Visible := true;
+  Button2.Visible := true;
 end;
 
 //Operacao converte para cinza

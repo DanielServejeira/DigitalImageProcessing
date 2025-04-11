@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, Menus,
-  StdCtrls, Windows, Unit2;
+  StdCtrls, Windows, Unit2, Math;
 
 type
 
@@ -56,6 +56,10 @@ type
     MenuItem32: TMenuItem;
     MenuItem33: TMenuItem;
     MenuItem34: TMenuItem;
+    MenuItem35: TMenuItem;
+    MenuItem36: TMenuItem;
+    MenuItem37: TMenuItem;
+    MenuItem38: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
@@ -99,6 +103,9 @@ type
     procedure MenuItem32Click(Sender: TObject);
     procedure MenuItem33Click(Sender: TObject);
     procedure MenuItem34Click(Sender: TObject);
+    procedure MenuItem36Click(Sender: TObject);
+    procedure MenuItem37Click(Sender: TObject);
+    procedure MenuItem38Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
@@ -713,6 +720,71 @@ procedure TForm1.MenuItem34Click(Sender: TObject);
     Label5.Visible := True;
     Button3.Visible := True;
   end;
+
+//Operacao passa alta sobel (horizontal)
+procedure TForm1.MenuItem36Click(Sender: TObject);
+var
+  i, j, grayValue: Integer;
+begin
+  for i:=1 to Image1.Width-1 do
+    for j:=1 to Image1.Height-1 do
+    begin
+    grayValue := 2*GetRValue(Image1.Canvas.Pixels[i,j+1]) + GetRValue(Image1.Canvas.Pixels[i-1,j+1]) +
+                 GetRValue(Image1.Canvas.Pixels[i+1,j+1]) - 2*GetRValue(Image1.Canvas.Pixels[i,j-1]) -
+                 GetRValue(Image1.Canvas.Pixels[i-1,j-1]) - GetRValue(Image1.Canvas.Pixels[i+1,j-1]);
+
+    if grayValue < 0 then grayValue := 0;
+    if grayValue > 255 then grayValue := 255;
+
+    Image2.Canvas.Pixels[i,j] := RGB(grayValue, grayValue, grayValue);
+    end;
+end;
+
+//Operacao passa alta sobel (vertical)
+procedure TForm1.MenuItem37Click(Sender: TObject);
+var
+  i, j, grayValue: Integer;
+begin
+  for i:=1 to Image1.Width-1 do
+    for j:=1 to Image1.Height-1 do
+    begin
+    grayValue := 2*GetRValue(Image1.Canvas.Pixels[i+1,j]) + GetRValue(Image1.Canvas.Pixels[i+1,j-1]) +
+                 GetRValue(Image1.Canvas.Pixels[i+1,j+1]) - 2*GetRValue(Image1.Canvas.Pixels[i-1,j]) -
+                 GetRValue(Image1.Canvas.Pixels[i-1,j-1]) - GetRValue(Image1.Canvas.Pixels[i-1,j+1]);
+
+    if grayValue < 0 then grayValue := 0;
+    if grayValue > 255 then grayValue := 255;
+
+    Image2.Canvas.Pixels[i,j] := RGB(grayValue, grayValue, grayValue);
+    end;
+end;
+
+//Operacao magnitude
+procedure TForm1.MenuItem38Click(Sender: TObject);
+var
+  i, j, grayValue: Integer;
+  gx, gy, mag: Double;
+begin
+  for i:=1 to Image1.Width-1 do
+    for j:=1 to Image1.Height-1 do
+    begin
+      gx := 2*GetRValue(Image1.Canvas.Pixels[i+1,j]) + GetRValue(Image1.Canvas.Pixels[i+1,j-1]) +
+            GetRValue(Image1.Canvas.Pixels[i+1,j+1]) - 2*GetRValue(Image1.Canvas.Pixels[i-1,j]) -
+            GetRValue(Image1.Canvas.Pixels[i-1,j-1]) - GetRValue(Image1.Canvas.Pixels[i-1,j+1]);
+
+      gy := 2*GetRValue(Image1.Canvas.Pixels[i,j+1]) + GetRValue(Image1.Canvas.Pixels[i-1,j+1]) +
+            GetRValue(Image1.Canvas.Pixels[i+1,j+1]) - 2*GetRValue(Image1.Canvas.Pixels[i,j-1]) -
+            GetRValue(Image1.Canvas.Pixels[i-1,j-1]) - GetRValue(Image1.Canvas.Pixels[i+1,j-1]);
+
+      mag := sqrt(gx*gx + gy*gy);
+
+      grayValue := round(mag*2/3);
+      if grayValue < 0 then grayValue := 0;
+      if grayValue > 255 then grayValue := 255;
+
+      Image2.Canvas.Pixels[i,j] := RGB(grayValue, grayValue, grayValue);
+    end;
+end;
 
 //Salvar imagem de saida
 procedure TForm1.MenuItem3Click(Sender: TObject);

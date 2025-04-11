@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 454
+  Left = 487
   Height = 393
-  Top = 337
+  Top = 358
   Width = 910
   Caption = 'Processamento Digital de Imagens'
   ClientHeight = 393
@@ -109,7 +109,7 @@ object Form1: TForm1
     Left = 394
     Height = 15
     Top = 201
-    Width = 47
+    Width = 46
     Caption = 'Defina T:'
     Visible = False
   end
@@ -255,6 +255,21 @@ object Form1: TForm1
       object MenuItem34: TMenuItem
         Caption = 'Limiarizar'
         OnClick = MenuItem34Click
+      end
+      object MenuItem35: TMenuItem
+        Caption = 'Sobel'
+        object MenuItem36: TMenuItem
+          Caption = 'Horizontal'
+          OnClick = MenuItem36Click
+        end
+        object MenuItem37: TMenuItem
+          Caption = 'Vertical'
+          OnClick = MenuItem37Click
+        end
+      end
+      object MenuItem38: TMenuItem
+        Caption = 'Magnitude'
+        OnClick = MenuItem38Click
       end
     end
     object MenuItem27: TMenuItem

@@ -17,6 +17,9 @@ type
     Button2: TButton;
     Button3: TButton;
     Edit1: TEdit;
+    EditMagnitude: TEdit;
+    EditXDirection: TEdit;
+    EditYDirection: TEdit;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -26,6 +29,9 @@ type
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
+    LabelMagnitude: TLabel;
+    LabelXDirection: TLabel;
+    LabelYDirection: TLabel;
     LabelWarning: TLabel;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
@@ -74,6 +80,7 @@ type
     procedure Button3Click(Sender: TObject);
     procedure Edit1Change(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: char);
+    procedure EditMagnitudeChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
@@ -113,7 +120,7 @@ type
     procedure MenuItem7Click(Sender: TObject);
     procedure MenuItem8Click(Sender: TObject);
   private
-
+    magnitudeArray: array of array of Double;
   public
 
   end;
@@ -397,6 +404,13 @@ begin
   if Key = #13 then Button3.Click;
 end;
 
+
+//EditMagnitude
+procedure TForm1.EditMagnitudeChange(Sender: TObject);
+begin
+
+end;
+
 procedure TForm1.FormCreate(Sender: TObject);
 begin
 
@@ -433,6 +447,13 @@ begin
     b := GetBValue(pixelColor);
 
     Label3.Caption := Format('x: %d  y: %d  Cor: RGB(%d, %d, %d)', [x, y, r, g, b]);
+  end;
+
+  if (x >= 0) and (x < Length(magnitudeArray)) and
+     (y >= 0) and (y < Length(magnitudeArray[0])) and
+     (EditMagnitude.Visible = true) then
+  begin
+    EditMagnitude.Caption := FormatFloat('0.00', magnitudeArray[x,y]);
   end;
 end;
 
@@ -714,6 +735,13 @@ end;
 //Operacao limiarizar
 procedure TForm1.MenuItem34Click(Sender: TObject);
   begin
+    LabelMagnitude.Visible := false;
+    LabelXDirection.Visible := false;
+    LabelYDirection.Visible := false;
+    EditMagnitude.Visible := false;
+    EditXDirection.Visible := false;
+    EditYDirection.Visible := false;
+
     Edit1.Visible := True;
     Edit1.SetFocus;
 
@@ -762,9 +790,13 @@ end;
 //Operacao magnitude
 procedure TForm1.MenuItem38Click(Sender: TObject);
 var
-  i, j, grayValue: Integer;
+  i, j, x, y, z, grayValue: Integer;
   gx, gy, mag: Double;
+  direction: array[0..360, 0..360] of Integer;
+  pi: Double = 3.141592653589793;
 begin
+  SetLength(MagnitudeArray, Image1.Width, Image1.Height);
+
   for i:=1 to Image1.Width-1 do
     for j:=1 to Image1.Height-1 do
     begin
@@ -777,13 +809,101 @@ begin
             GetRValue(Image1.Canvas.Pixels[i-1,j-1]) - GetRValue(Image1.Canvas.Pixels[i+1,j-1]);
 
       mag := sqrt(gx*gx + gy*gy);
+      magnitudeArray[i,j] := mag;
 
-      grayValue := round(mag*2/3);
+      grayValue := Round(mag*2/3);
       if grayValue < 0 then grayValue := 0;
       if grayValue > 255 then grayValue := 255;
 
-      Image2.Canvas.Pixels[i,j] := RGB(round(mag*2/3), round(mag * 2.0 / 3.0), round(mag * 2.0 / 3.0));
+      Image2.Canvas.Pixels[i,j] := RGB(grayValue, grayValue, grayValue);
+
+      if gx = 0 then x:=1 else x:=0;
+      if gy = 0 then y:=1 else y:=0;
+      z := y*2 + 2;
+
+      if z = 0 then
+      begin
+        direction[i,j] := Round(ArcTan2(gy,gx)*180 / pi);
+        if direction[i,j] < 0 then direction[i,j] := direction[i,j] + 360
+      end
+      else if z = 1 then
+      begin
+        if gy > 0 then direction[i,j] := 90
+        else direction[i,j] := 270
+      end
+      else if z = 2 then
+      begin
+        if gx > 0 then direction[i,j] := 0
+        else direction[i,j] := 180
+      end
+      else
+      begin
+        direction[i,j] := -1;
+      end;
     end;
+
+    i := 0;
+    for j := 0 to Image1.Height - 1 do
+    begin
+      Image2.Canvas.Pixels[i,j] := 0;
+      direction[i,j] := -1;
+    end;
+
+    i := 1;
+    for j := 0 to Image1.Height - 1 do
+    begin
+      Image2.Canvas.Pixels[i,j] := 0;
+      direction[i,j] := -1;
+    end;
+
+    i := Image1.Height - 2;
+    for j := 0 to Image1.Height - 1 do
+    begin
+      Image2.Canvas.Pixels[i,j] := 0;
+      direction[i,j] := -1;
+    end;
+
+    i := Image1.Width - 1;
+    for j := 0 to Image1.Height - 1 do
+    begin
+      Image2.Canvas.Pixels[i,j] := 0;
+      direction[i,j] := -1;
+    end;
+
+    j := 0;
+    for i := 0 to Image1.Width - 1 do
+    begin
+      Image2.Canvas.Pixels[i,j] := 0;
+      direction[i,j] := -1;
+    end;
+
+    j := 1;
+    for i := 0 to Image1.Width - 1 do
+    begin
+      Image2.Canvas.Pixels[i,j] := 0;
+      direction[i,j] := -1;
+    end;
+
+    j := Image1.Height - 2;
+    for i := 0 to Image1.Width - 1 do
+    begin
+      Image2.Canvas.Pixels[i,j] := 0;
+      direction[i,j] := -1;
+    end;
+
+    j := Image1.Height - 1;
+    for i := 0 to Image1.Width - 1 do
+    begin
+      Image2.Canvas.Pixels[i,j] := 0;
+      direction[i,j] := -1;
+    end;
+
+  LabelMagnitude.Visible := true;
+  LabelXDirection.Visible := true;
+  LabelYDirection.Visible := true;
+  EditMagnitude.Visible := true;
+  EditXDirection.Visible := true;
+  EditYDirection.Visible := true;
 end;
 
 //Salvar imagem de saida
@@ -861,6 +981,13 @@ begin
   Label5.Visible := false;
   Edit1.Visible := false;
   Button3.Visible := false;
+
+  LabelMagnitude.Visible := false;
+  LabelXDirection.Visible := false;
+  LabelYDirection.Visible := false;
+  EditMagnitude.Visible := false;
+  EditXDirection.Visible := false;
+  EditYDirection.Visible := false;
 end;
 
 //Operacao converte para cinza

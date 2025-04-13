@@ -18,8 +18,7 @@ type
     Button3: TButton;
     Edit1: TEdit;
     EditMagnitude: TEdit;
-    EditXDirection: TEdit;
-    EditYDirection: TEdit;
+    EditDirection: TEdit;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -30,8 +29,7 @@ type
     Label4: TLabel;
     Label5: TLabel;
     LabelMagnitude: TLabel;
-    LabelXDirection: TLabel;
-    LabelYDirection: TLabel;
+    LabelDirection: TLabel;
     LabelWarning: TLabel;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
@@ -81,6 +79,7 @@ type
     procedure Edit1Change(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: char);
     procedure EditMagnitudeChange(Sender: TObject);
+    procedure EditDirectionChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
@@ -121,6 +120,7 @@ type
     procedure MenuItem8Click(Sender: TObject);
   private
     magnitudeArray: array of array of Double;
+    directionArray: array of array of Integer;
   public
 
   end;
@@ -392,13 +392,13 @@ begin
   end;
 end;
 
-//Caixa de texto
+//Caixa de texto limiarizar
 procedure TForm1.Edit1Change(Sender: TObject);
 begin
 
 end;
 
-//Evento caixa de texto
+//Evento caixa de texto limiarizar
 procedure TForm1.Edit1KeyPress(Sender: TObject; var Key: char);
 begin
   if Key = #13 then Button3.Click;
@@ -407,6 +407,12 @@ end;
 
 //EditMagnitude
 procedure TForm1.EditMagnitudeChange(Sender: TObject);
+begin
+
+end;
+
+//EditDirection
+procedure TForm1.EditDirectionChange(Sender: TObject);
 begin
 
 end;
@@ -454,6 +460,11 @@ begin
      (EditMagnitude.Visible = true) then
   begin
     EditMagnitude.Caption := FormatFloat('0.00', magnitudeArray[x,y]);
+  end;
+
+  if (x >= 0) and (x < Image2.Width) and (y >= 0) and (y < Image2.Height) then
+  begin
+    EditDirection.Caption := Format('%d°', [directionArray[x, y]]);
   end;
 end;
 
@@ -736,11 +747,9 @@ end;
 procedure TForm1.MenuItem34Click(Sender: TObject);
   begin
     LabelMagnitude.Visible := false;
-    LabelXDirection.Visible := false;
-    LabelYDirection.Visible := false;
+    LabelDirection.Visible := false;
     EditMagnitude.Visible := false;
-    EditXDirection.Visible := false;
-    EditYDirection.Visible := false;
+    EditDirection.Visible := false;
 
     Edit1.Visible := True;
     Edit1.SetFocus;
@@ -792,10 +801,10 @@ procedure TForm1.MenuItem38Click(Sender: TObject);
 var
   i, j, x, y, z, grayValue: Integer;
   gx, gy, mag: Double;
-  direction: array[0..360, 0..360] of Integer;
   pi: Double = 3.141592653589793;
 begin
-  SetLength(MagnitudeArray, Image1.Width, Image1.Height);
+  SetLength(MagnitudeArray, Image2.Width, Image2.Height);
+  SetLength(directionArray, Image2.Width, Image2.Height);
 
   for i:=1 to Image1.Width-1 do
     for j:=1 to Image1.Height-1 do
@@ -819,91 +828,44 @@ begin
 
       if gx = 0 then x:=1 else x:=0;
       if gy = 0 then y:=1 else y:=0;
-      z := y*2 + 2;
+      z := y*2 + x;
 
-      if z = 0 then
-      begin
-        direction[i,j] := Round(ArcTan2(gy,gx)*180 / pi);
-        if direction[i,j] < 0 then direction[i,j] := direction[i,j] + 360
-      end
-      else if z = 1 then
-      begin
-        if gy > 0 then direction[i,j] := 90
-        else direction[i,j] := 270
-      end
-      else if z = 2 then
-      begin
-        if gx > 0 then direction[i,j] := 0
-        else direction[i,j] := 180
-      end
+      case z of
+        0:
+        begin
+          directionArray[i,j] := Round(ArcTan2(gy,gx)*180 / pi);
+          if directionArray[i,j] < 0 then
+            directionArray[i,j] := directionArray[i,j] + 360;
+        end;
+        1:
+          if gy > 0 then directionArray[i,j] := 90
+          else directionArray[i,j] := 270;
+        2:
+          if gx > 0 then directionArray[i,j] := 0
+          else directionArray[i,j] := 180;
       else
-      begin
-        direction[i,j] := -1;
+        directionArray[i,j] := -1;
       end;
     end;
 
-    i := 0;
-    for j := 0 to Image1.Height - 1 do
+  for j := 0 to Image1.Height - 1 do
+    for i in [0, 1, Image1.Width - 2, Image1.Width - 1] do
     begin
       Image2.Canvas.Pixels[i,j] := 0;
-      direction[i,j] := -1;
+      directionArray[i,j] := -1;
     end;
 
-    i := 1;
-    for j := 0 to Image1.Height - 1 do
+  for i := 0 to Image1.Width - 1 do
+    for j in [0, 1, Image1.Height - 2, Image1.Height - 1] do
     begin
       Image2.Canvas.Pixels[i,j] := 0;
-      direction[i,j] := -1;
-    end;
-
-    i := Image1.Height - 2;
-    for j := 0 to Image1.Height - 1 do
-    begin
-      Image2.Canvas.Pixels[i,j] := 0;
-      direction[i,j] := -1;
-    end;
-
-    i := Image1.Width - 1;
-    for j := 0 to Image1.Height - 1 do
-    begin
-      Image2.Canvas.Pixels[i,j] := 0;
-      direction[i,j] := -1;
-    end;
-
-    j := 0;
-    for i := 0 to Image1.Width - 1 do
-    begin
-      Image2.Canvas.Pixels[i,j] := 0;
-      direction[i,j] := -1;
-    end;
-
-    j := 1;
-    for i := 0 to Image1.Width - 1 do
-    begin
-      Image2.Canvas.Pixels[i,j] := 0;
-      direction[i,j] := -1;
-    end;
-
-    j := Image1.Height - 2;
-    for i := 0 to Image1.Width - 1 do
-    begin
-      Image2.Canvas.Pixels[i,j] := 0;
-      direction[i,j] := -1;
-    end;
-
-    j := Image1.Height - 1;
-    for i := 0 to Image1.Width - 1 do
-    begin
-      Image2.Canvas.Pixels[i,j] := 0;
-      direction[i,j] := -1;
+      directionArray[i,j] := -1;
     end;
 
   LabelMagnitude.Visible := true;
-  LabelXDirection.Visible := true;
-  LabelYDirection.Visible := true;
+  LabelDirection.Visible := true;
   EditMagnitude.Visible := true;
-  EditXDirection.Visible := true;
-  EditYDirection.Visible := true;
+  EditDirection.Visible := true;
 end;
 
 //Salvar imagem de saida
@@ -983,11 +945,9 @@ begin
   Button3.Visible := false;
 
   LabelMagnitude.Visible := false;
-  LabelXDirection.Visible := false;
-  LabelYDirection.Visible := false;
+  LabelDirection.Visible := false;
   EditMagnitude.Visible := false;
-  EditXDirection.Visible := false;
-  EditYDirection.Visible := false;
+  EditDirection.Visible := false;
 end;
 
 //Operacao converte para cinza

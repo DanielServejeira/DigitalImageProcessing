@@ -137,55 +137,42 @@ object Form1: TForm1
     Caption = 'Magnitude:'
     Visible = False
   end
-  object LabelXDirection: TLabel
-    Left = 36
+  object LabelDirection: TLabel
+    Left = 55
     Height = 15
     Top = 353
-    Width = 9
-    Caption = 'x:'
-    Visible = False
-  end
-  object LabelYDirection: TLabel
-    Left = 102
-    Height = 15
-    Top = 353
-    Width = 9
-    Caption = 'y:'
+    Width = 43
+    Caption = 'Direção:'
     Visible = False
   end
   object EditMagnitude: TEdit
     Left = 105
-    Height = 23
-    Top = 318
+    Height = 15
+    Top = 321
     Width = 40
-    MaxLength = 5
+    BorderStyle = bsNone
+    Color = clBtnFace
     NumbersOnly = True
     ReadOnly = True
+    TabStop = False
     TabOrder = 4
     Visible = False
     OnChange = EditMagnitudeChange
   end
-  object EditXDirection: TEdit
-    Left = 48
-    Height = 23
-    Top = 351
-    Width = 31
-    MaxLength = 3
+  object EditDirection: TEdit
+    Left = 104
+    Height = 15
+    Top = 353
+    Width = 40
+    BorderStyle = bsNone
+    Color = clBtnFace
+    MaxLength = 4
     NumbersOnly = True
     ReadOnly = True
+    TabStop = False
     TabOrder = 5
     Visible = False
-  end
-  object EditYDirection: TEdit
-    Left = 114
-    Height = 23
-    Top = 351
-    Width = 31
-    MaxLength = 3
-    NumbersOnly = True
-    ReadOnly = True
-    TabOrder = 6
-    Visible = False
+    OnChange = EditDirectionChange
   end
   object MainMenu1: TMainMenu
     Left = 856

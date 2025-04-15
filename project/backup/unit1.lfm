@@ -85,7 +85,7 @@ object Form1: TForm1
     Top = 289
     Width = 1
   end
-  object Button3: TButton
+  object ButtonDefine: TButton
     Left = 393
     Height = 37
     Top = 253
@@ -93,19 +93,19 @@ object Form1: TForm1
     Caption = 'Definir'
     TabOrder = 2
     Visible = False
-    OnClick = Button3Click
+    OnClick = ButtonDefineClick
   end
-  object Edit1: TEdit
+  object EditDefine: TEdit
     Left = 393
     Height = 23
     Top = 224
     Width = 75
-    NumbersOnly = True
     TabOrder = 3
     Visible = False
-    OnChange = Edit1Change
+    OnChange = EditDefineChange
+    OnKeyPress = EditDefineKeyPress
   end
-  object Label5: TLabel
+  object LabelDefine: TLabel
     Left = 394
     Height = 15
     Top = 201
@@ -115,11 +115,11 @@ object Form1: TForm1
   end
   object LabelWarning: TLabel
     Left = 368
-    Height = 30
-    Top = 39
+    Height = 15
+    Top = 56
     Width = 130
     Alignment = taCenter
-    Caption = 'Valor de entrada inválido'#13#10'(max = 255)'
+    Caption = 'Valor de entrada inválido'
     Color = clBlack
     Font.CharSet = ANSI_CHARSET
     Font.Color = clRed
@@ -194,9 +194,78 @@ object Form1: TForm1
     object MenuItem5: TMenuItem
       Caption = 'Operação'
       OnClick = MenuItem5Click
+      object MenuItem32: TMenuItem
+        Caption = 'Bilinearizar'
+        OnClick = MenuItem32Click
+      end
       object MenuItem6: TMenuItem
         Caption = '&Converter para Cinza'
         OnClick = MenuItem6Click
+      end
+      object MenuCompressao: TMenuItem
+        Caption = 'Compressão de Escala Dinâmica'
+        OnClick = MenuCompressaoClick
+      end
+      object MenuItem28: TMenuItem
+        Caption = 'Equalizar'
+        OnClick = MenuItem28Click
+      end
+      object MenuItem8: TMenuItem
+        Caption = '&Filtro'
+        object MenuItem18: TMenuItem
+          Caption = 'Média (Vizinhança-&4)'
+          OnClick = MenuItem18Click
+        end
+        object MenuItem4: TMenuItem
+          Caption = 'Média (Vizinhança-&8)'
+          OnClick = MenuItem4Click
+        end
+        object MenuItem19: TMenuItem
+          Caption = 'Mediana &3x3'
+          OnClick = MenuItem19Click
+        end
+      end
+      object MenuItem26: TMenuItem
+        Caption = 'Gerar Ruído'
+        OnClick = MenuItem26Click
+        object MenuItem29: TMenuItem
+          Caption = 'Cores Aleatórias'
+          OnClick = MenuItem29Click
+        end
+        object MenuItem30: TMenuItem
+          Caption = 'Sal e Pimenta'
+          OnClick = MenuItem30Click
+        end
+      end
+      object MenuItem23: TMenuItem
+        Caption = 'In&terpolar'
+        object MenuItem24: TMenuItem
+          Caption = 'Vizinho Mais Próximo'
+          OnClick = MenuItem24Click
+        end
+        object MenuItem25: TMenuItem
+          Caption = 'Bilinear'
+          OnClick = MenuItem25Click
+        end
+      end
+      object MenuItem20: TMenuItem
+        Caption = 'In&verter'
+        object MenuItem21: TMenuItem
+          Caption = 'Horizontal'
+          OnClick = MenuItem21Click
+        end
+        object MenuItem22: TMenuItem
+          Caption = 'Vertical'
+          OnClick = MenuItem22Click
+        end
+      end
+      object MenuItem33: TMenuItem
+        Caption = 'Laplaciano N4(p)'
+        OnClick = MenuItem33Click
+      end
+      object MenuItem34: TMenuItem
+        Caption = 'Limiarizar'
+        OnClick = MenuItem34Click
       end
       object MenuItem7: TMenuItem
         Caption = '&Negativar'
@@ -209,6 +278,10 @@ object Form1: TForm1
           Caption = 'C&olorida'
           OnClick = MenuItem17Click
         end
+      end
+      object MenuItem38: TMenuItem
+        Caption = 'Magnitude'
+        OnClick = MenuItem38Click
       end
       object MenuItem9: TMenuItem
         Caption = 'S&eparar Canal'
@@ -237,71 +310,6 @@ object Form1: TForm1
           OnClick = MenuItem15Click
         end
       end
-      object MenuItem8: TMenuItem
-        Caption = '&Filtro'
-        object MenuItem18: TMenuItem
-          Caption = 'Média (Vizinhança-&4)'
-          OnClick = MenuItem18Click
-        end
-        object MenuItem4: TMenuItem
-          Caption = 'Média (Vizinhança-&8)'
-          OnClick = MenuItem4Click
-        end
-        object MenuItem19: TMenuItem
-          Caption = 'Mediana &3x3'
-          OnClick = MenuItem19Click
-        end
-      end
-      object MenuItem20: TMenuItem
-        Caption = 'In&verter'
-        object MenuItem21: TMenuItem
-          Caption = 'Horizontal'
-          OnClick = MenuItem21Click
-        end
-        object MenuItem22: TMenuItem
-          Caption = 'Vertical'
-          OnClick = MenuItem22Click
-        end
-      end
-      object MenuItem23: TMenuItem
-        Caption = 'In&terpolar'
-        object MenuItem24: TMenuItem
-          Caption = 'Vizinho Mais Próximo'
-          OnClick = MenuItem24Click
-        end
-        object MenuItem25: TMenuItem
-          Caption = 'Bilinear'
-          OnClick = MenuItem25Click
-        end
-      end
-      object MenuItem26: TMenuItem
-        Caption = 'Gerar Ruído'
-        OnClick = MenuItem26Click
-        object MenuItem29: TMenuItem
-          Caption = 'Cores Aleatórias'
-          OnClick = MenuItem29Click
-        end
-        object MenuItem30: TMenuItem
-          Caption = 'Sal e Pimenta'
-          OnClick = MenuItem30Click
-        end
-      end
-      object MenuItem28: TMenuItem
-        Caption = 'Equalizar'
-        OnClick = MenuItem28Click
-      end
-      object MenuItem32: TMenuItem
-        Caption = 'Bilinearizar'
-        OnClick = MenuItem32Click
-      end
-      object MenuItem33: TMenuItem
-        Caption = 'Laplaciano N4(p)'
-        OnClick = MenuItem33Click
-      end
-      object MenuItem34: TMenuItem
-        Caption = 'Limiarizar'
-        OnClick = MenuItem34Click
-      end
       object MenuItem35: TMenuItem
         Caption = 'Sobel'
         object MenuItem36: TMenuItem
@@ -312,10 +320,6 @@ object Form1: TForm1
           Caption = 'Vertical'
           OnClick = MenuItem37Click
         end
-      end
-      object MenuItem38: TMenuItem
-        Caption = 'Magnitude'
-        OnClick = MenuItem38Click
       end
     end
     object MenuItem27: TMenuItem

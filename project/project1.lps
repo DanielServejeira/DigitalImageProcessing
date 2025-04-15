@@ -12,7 +12,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="92"/>
       </Unit>
       <Unit>
         <Filename Value="unit1.pas"/>
@@ -22,9 +22,9 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="466"/>
+        <TopLine Value="796"/>
         <CursorPos X="24" Y="482"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="92"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -38,7 +38,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="74"/>
         <CursorPos X="3" Y="86"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="63"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -47,28 +47,28 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="81"/>
         <CursorPos Y="101"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\application.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1584"/>
         <CursorPos Y="1603"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="C:\lazarus\lcl\include\control.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="918"/>
         <CursorPos X="14" Y="4194"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="unit1.lfm"/>
         <EditorIndex Value="2"/>
         <TopLine Value="82"/>
         <CursorPos X="56" Y="104"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
@@ -76,7 +76,7 @@
         <Filename Value="unit2.lfm"/>
         <EditorIndex Value="3"/>
         <CursorPos X="14" Y="6"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>

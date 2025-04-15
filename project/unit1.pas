@@ -15,8 +15,10 @@ type
   TForm1 = class(TForm)
     Button1: TButton;
     Button2: TButton;
-    Button3: TButton;
-    Edit1: TEdit;
+    ButtonDefine: TButton;
+    EditDefine: TEdit;
+    EditMagnitude: TEdit;
+    EditDirection: TEdit;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -25,7 +27,9 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    Label5: TLabel;
+    LabelDefine: TLabel;
+    LabelMagnitude: TLabel;
+    LabelDirection: TLabel;
     LabelWarning: TLabel;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
@@ -60,6 +64,7 @@ type
     MenuItem36: TMenuItem;
     MenuItem37: TMenuItem;
     MenuItem38: TMenuItem;
+    MenuCompressao: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
@@ -71,9 +76,12 @@ type
     Separator1: TMenuItem;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
-    procedure Edit1Change(Sender: TObject);
+    procedure ButtonDefineClick(Sender: TObject);
+    procedure EditDefineChange(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: char);
+    procedure EditDefineKeyPress(Sender: TObject; var Key: char);
+    procedure EditMagnitudeChange(Sender: TObject);
+    procedure EditDirectionChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Image1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
@@ -106,6 +114,7 @@ type
     procedure MenuItem36Click(Sender: TObject);
     procedure MenuItem37Click(Sender: TObject);
     procedure MenuItem38Click(Sender: TObject);
+    procedure MenuCompressaoClick(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
@@ -113,7 +122,10 @@ type
     procedure MenuItem7Click(Sender: TObject);
     procedure MenuItem8Click(Sender: TObject);
   private
-
+    magnitudeArray: array of array of Double;
+    directionArray: array of array of Integer;
+    activatedMag: Boolean;
+    c, gama: Double;
   public
 
   end;
@@ -352,49 +364,142 @@ begin
 end;
 
 //Botao definir
-procedure TForm1.Button3Click(Sender: TObject);
+procedure TForm1.ButtonDefineClick(Sender: TObject);
 var
-  r, g, b, i, j, input: Integer;
+  r, g, b, i, j, s, input: Integer;
+  normR, normG, normB: Double;
   pixelColor: TColor;
+  fs: TFormatSettings;
 begin
-  if TryStrToInt(Edit1.Text, input) then
+  GetLocaleFormatSettings(0, fs);  // usa configurações do sistema
+  fs.DecimalSeparator := ',';      // força o separador como vírgula
+
+  if LabelDefine.Caption = 'Defina T:' then
   begin
-    if input > 255 then
+    if TryStrToInt(EditDefine.Text, input) then
     begin
-      LabelWarning.Visible := True
+      if input > 255 then
+        LabelWarning.Visible := True
+      else
+      begin
+        LabelWarning.Visible := False;
+        LabelDefine.Visible := False;
+        EditDefine.Visible := False;
+        ButtonDefine.Visible := False;
+
+        for j := 1 to Image1.Height do
+          for i := 1 to Image1.Width do
+          begin
+            pixelColor := Image1.Canvas.Pixels[i, j];
+            r := GetRValue(pixelColor);
+            g := GetGValue(pixelColor);
+            b := GetBValue(pixelColor);
+
+            if (r + g + b) / 3 < input then
+              Image2.Canvas.Pixels[i, j] := 0
+            else
+              Image2.Canvas.Pixels[i, j] := RGB(r, g, b);
+          end;
+      end;
     end
     else
+      LabelWarning.Visible := True;
+  end
+  else if LabelDefine.Caption = 'Defina C:' then
+  begin
+    if TryStrToFloat(EditDefine.Text, c, fs) and (c > 0) then
+    begin
+      c := StrToFloat(EditDefine.Text, fs);
+      EditDefine.Clear;
+      LabelDefine.Caption := 'Defina Gama:';
+      EditDefine.SetFocus;
       LabelWarning.Visible := False;
-      Label5.Visible := False;
-      Edit1.Visible := False;
-      Button3.Visible := False;
+    end
+    else
+      LabelWarning.Visible := True;
+  end
+  else if LabelDefine.Caption = 'Defina Gama:' then
+  begin
+    if TryStrToFloat(EditDefine.Text, gama, fs) and (gama > 0) then
+    begin
+      gama := StrToFloat(EditDefine.Text, fs);
+      LabelWarning.Visible := False;
+      LabelDefine.Visible := False;
+      EditDefine.Visible := False;
+      ButtonDefine.Visible := False;
+      EditDefine.Clear;
 
-      for j:=1 to Image1.Height do
-        for i:=1 to Image1.Width do
+      for i := 0 to Image1.Width - 1 do
+        for j := 0 to Image1.Height - 1 do
         begin
-        pixelColor := Image1.Canvas.Pixels[i,j];
-        r := GetRValue(pixelColor);
-        g := GetGValue(pixelColor);
-        b := GetBValue(pixelColor);
+          pixelColor := Image1.Canvas.Pixels[i, j];
+          r := GetRValue(pixelColor);
+          g := GetGValue(pixelColor);
+          b := GetBValue(pixelColor);
 
-        if (r+g+b)/3 < input then
-          Image2.Canvas.Pixels[i,j] := 0
-        else
-          Image2.Canvas.Pixels[i,j] := RGB(r,g,b);
+          if (r = g) and (r = b) then
+          begin
+            normR := r / 255;
+            s := Round(c * Power(normR, gama) * 255);
+            s := EnsureRange(s, 0, 255);
+            Image2.Canvas.Pixels[i,j] := RGB(s, s, s);
+          end
+          else
+          begin
+            normR := r / 255.0;
+            normG := g / 255.0;
+            normB := b / 255.0;
+
+            r := Round(c * Power(normR, gama) * 255);
+            g := Round(c * Power(normG, gama) * 255);
+            b := Round(c * Power(normB, gama) * 255);
+
+            r := EnsureRange(r, 0, 255);
+            g := EnsureRange(g, 0, 255);
+            b := EnsureRange(b, 0, 255);
+
+            Image2.Canvas.Pixels[i,j] := RGB(r, g, b);
+          end;
         end;
+    end
+    else
+      LabelWarning.Visible := True;
   end;
 end;
 
-//Caixa de texto
-procedure TForm1.Edit1Change(Sender: TObject);
+//Caixa de texto limiarizar
+procedure TForm1.EditDefineChange(Sender: TObject);
 begin
 
 end;
 
-//Evento caixa de texto
+//Evento caixa de texto limiarizar
 procedure TForm1.Edit1KeyPress(Sender: TObject; var Key: char);
 begin
-  if Key = #13 then Button3.Click;
+  if Key = #13 then ButtonDefine.Click;
+end;
+
+//Evento editdefine keypress
+procedure TForm1.EditDefineKeyPress(Sender: TObject; var Key: char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    ButtonDefine.SetFocus;
+  end;
+end;
+
+
+//EditMagnitude
+procedure TForm1.EditMagnitudeChange(Sender: TObject);
+begin
+
+end;
+
+//EditDirection
+procedure TForm1.EditDirectionChange(Sender: TObject);
+begin
+
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -415,7 +520,7 @@ begin
     g := GetGValue(pixelColor);
     b := GetBValue(pixelColor);
 
-    Label3.Caption := Format('x: %d  y: %d  Cor: RGB(%d, %d, %d)', [x, y, r, g, b]);
+    Label3.Caption := Format('X: %d  Y: %d   Cor: RGB(%d, %d, %d)', [x, y, r, g, b]);
   end;
 end;
 
@@ -432,7 +537,19 @@ begin
     g := GetGValue(pixelColor);
     b := GetBValue(pixelColor);
 
-    Label3.Caption := Format('x: %d  y: %d  Cor: RGB(%d, %d, %d)', [x, y, r, g, b]);
+    Label3.Caption := Format('X: %d  Y: %d   Cor: RGB(%d, %d, %d)', [x, y, r, g, b]);
+  end;
+
+  if (x >= 0) and (x < Length(magnitudeArray)) and
+     (y >= 0) and (y < Length(magnitudeArray[0])) and
+     (EditMagnitude.Visible = true) then
+  begin
+    EditMagnitude.Caption := FormatFloat('0.00', magnitudeArray[x,y]);
+  end;
+
+  if (x >= 0) and (x < Image2.Width) and (y >= 0) and (y < Image2.Height) and (activatedMag = true) then
+  begin
+    EditDirection.Caption := Format('%d°', [directionArray[x, y]]);
   end;
 end;
 
@@ -529,7 +646,7 @@ end;
 //Operacao negativa cinza
 procedure TForm1.MenuItem16Click(Sender: TObject);
 var
-  r, g, b, c, i, j: Integer;
+  r, g, b, i, j, gray: Integer;
   pixelColor: TColor;
 begin
   for j:=1 to Image1.Height do
@@ -539,10 +656,10 @@ begin
       r := GetRValue(pixelColor);
       g := GetGValue(pixelColor);
       b := GetBValue(pixelColor);
-      c := round(0.299*r + 0.587*g + 0.114*b);
+      gray := round(0.299*r + 0.587*g + 0.114*b);
 
-      c := 255-c;
-      Image2.Canvas.Pixels[i,j] := RGB(c,c,c);
+      gray := 255-gray;
+      Image2.Canvas.Pixels[i,j] := RGB(gray,gray,gray);
     end;
 end;
 
@@ -714,11 +831,16 @@ end;
 //Operacao limiarizar
 procedure TForm1.MenuItem34Click(Sender: TObject);
   begin
-    Edit1.Visible := True;
-    Edit1.SetFocus;
+    LabelMagnitude.Visible := false;
+    LabelDirection.Visible := false;
+    EditMagnitude.Visible := false;
+    EditDirection.Visible := false;
 
-    Label5.Visible := True;
-    Button3.Visible := True;
+    EditDefine.Visible := True;
+    EditDefine.SetFocus;
+
+    LabelDefine.Visible := True;
+    ButtonDefine.Visible := True;
   end;
 
 //Operacao passa alta sobel (horizontal)
@@ -762,9 +884,15 @@ end;
 //Operacao magnitude
 procedure TForm1.MenuItem38Click(Sender: TObject);
 var
-  i, j, grayValue: Integer;
+  i, j, x, y, z, grayValue: Integer;
   gx, gy, mag: Double;
+  pi: Double = 3.141592653589793;
 begin
+  SetLength(MagnitudeArray, Image2.Width, Image2.Height);
+  SetLength(directionArray, Image2.Width, Image2.Height);
+
+  activatedMag := true;
+
   for i:=1 to Image1.Width-1 do
     for j:=1 to Image1.Height-1 do
     begin
@@ -777,13 +905,64 @@ begin
             GetRValue(Image1.Canvas.Pixels[i-1,j-1]) - GetRValue(Image1.Canvas.Pixels[i+1,j-1]);
 
       mag := sqrt(gx*gx + gy*gy);
+      magnitudeArray[i,j] := mag;
 
-      grayValue := round(mag*2/3);
+      grayValue := Round(mag*2/3);
       if grayValue < 0 then grayValue := 0;
       if grayValue > 255 then grayValue := 255;
 
       Image2.Canvas.Pixels[i,j] := RGB(grayValue, grayValue, grayValue);
+
+      if gx = 0 then x:=1 else x:=0;
+      if gy = 0 then y:=1 else y:=0;
+      z := y*2 + x;
+
+      case z of
+        0:
+        begin
+          directionArray[i,j] := Round(ArcTan2(gy,gx)*180 / pi);
+          if directionArray[i,j] < 0 then
+            directionArray[i,j] := directionArray[i,j] + 360;
+        end;
+        1:
+          if gy > 0 then directionArray[i,j] := 90
+          else directionArray[i,j] := 270;
+        2:
+          if gx > 0 then directionArray[i,j] := 0
+          else directionArray[i,j] := 180;
+      else
+        directionArray[i,j] := -1;
+      end;
     end;
+
+  for j := 0 to Image1.Height - 1 do
+    for i in [0, 1, Image1.Width - 2, Image1.Width - 1] do
+    begin
+      Image2.Canvas.Pixels[i,j] := 0;
+      directionArray[i,j] := -1;
+    end;
+
+  for i := 0 to Image1.Width - 1 do
+    for j in [0, 1, Image1.Height - 2, Image1.Height - 1] do
+    begin
+      Image2.Canvas.Pixels[i,j] := 0;
+      directionArray[i,j] := -1;
+    end;
+
+  LabelMagnitude.Visible := true;
+  LabelDirection.Visible := true;
+  EditMagnitude.Visible := true;
+  EditDirection.Visible := true;
+end;
+
+//Menu compressao
+procedure TForm1.MenuCompressaoClick(Sender: TObject);
+begin
+  LabelDefine.Caption := 'Defina C:';
+  LabelDefine.Visible := true;
+  EditDefine.Visible := true;
+  ButtonDefine.Visible := true;
+  EditDefine.SetFocus;
 end;
 
 //Salvar imagem de saida
@@ -858,15 +1037,22 @@ end;
 procedure TForm1.MenuItem5Click(Sender: TObject);
 begin
   LabelWarning.Visible := false;
-  Label5.Visible := false;
-  Edit1.Visible := false;
-  Button3.Visible := false;
+  LabelDefine.Visible := false;
+  EditDefine.Visible := false;
+  ButtonDefine.Visible := false;
+
+  LabelMagnitude.Visible := false;
+  LabelDirection.Visible := false;
+  EditMagnitude.Visible := false;
+  EditDirection.Visible := false;
+
+  activatedMag := false;
 end;
 
 //Operacao converte para cinza
 procedure TForm1.MenuItem6Click(Sender: TObject);
 var
-  r, g, b, c, i, j: Integer;
+  r, g, b, gray, i, j: Integer;
   pixelColor: TColor;
 begin
   for j:=1 to Image1.Height do
@@ -876,8 +1062,8 @@ begin
       r := GetRValue(pixelColor);
       g := GetGValue(pixelColor);
       b := GetBValue(pixelColor);
-      c := round(0.299*r + 0.587*g + 0.114*b);
-      Image2.Canvas.Pixels[i,j] := RGB(c,c,c);
+      gray := round(0.299*r + 0.587*g + 0.114*b);
+      Image2.Canvas.Pixels[i,j] := RGB(gray,gray,gray);
     end;
   end;
 

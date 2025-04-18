@@ -553,13 +553,13 @@ begin
 end;
 
 {------------------------------------------------------------------------------
-  Procedure Name: Edit1Change
-  Purpose       : Handles the Change event for Edit1. Ensures that only numeric characters
+  Procedure Name: Edit3Change
+  Purpose       : Handles the Change event for Edit3. Ensures that only numeric characters
                   and commas are allowed in the input. If any invalid character is entered,
                   the last character is removed.
-  Parameters    : Sender - the component that triggered the event (Edit1)
+  Parameters    : Sender - the component that triggered the event (Edit3)
   Notes         : This procedure prevents users from entering non-numeric characters
-                  or anything other than commas in the Edit1 input field. If an invalid
+                  or anything other than commas in the Edit3 input field. If an invalid
                   character is entered, it is removed from the input.
 ------------------------------------------------------------------------------}
 procedure TForm2.Edit3Change(Sender: TObject);

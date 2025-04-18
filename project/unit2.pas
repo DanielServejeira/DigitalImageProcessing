@@ -1,4 +1,14 @@
-unit Unit2;
+{******************************************************************************
+  Unit Name    : ColorModelConverter
+  Purpose      : Color model conversion between RGB and HSV
+  Description  : This unit implements functionality to convert color values
+                 between RGB (Red, Green, Blue) and HSV (Hue, Saturation, Value)
+                 models, using a graphical user interface for input and output.
+  Author       : Daniel Servejeira and Raphael Leiva
+  Date         : April, 2025
+******************************************************************************}
+
+unit Unit;
 
 {$mode ObjFPC}{$H+}
 
@@ -13,9 +23,9 @@ type
   { TForm2 }
 
   TForm2 = class(TForm)
-    Button1: TButton;
-    Button2: TButton;
-    Button3: TButton;
+    ConvertButton: TButton;
+    ExitButton: TButton;
+    ResetButton: TButton;
     InputComboBox: TComboBox;
     OutputComboBox: TComboBox;
     Edit1: TEdit;
@@ -24,15 +34,15 @@ type
     Edit4: TEdit;
     Edit5: TEdit;
     Edit6: TEdit;
-    Label1: TLabel;
-    Label2: TLabel;
+    InputLabel: TLabel;
+    OutputLabel: TLabel;
     Label3: TLabel;
     TrackBar1: TTrackBar;
     TrackBar2: TTrackBar;
     TrackBar3: TTrackBar;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
+    procedure ConvertButtonClick(Sender: TObject);
+    procedure ExitButtonClick(Sender: TObject);
+    procedure ResetButtonClick(Sender: TObject);
     procedure InputComboBoxChange(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: char);
     procedure Edit1MouseUp(Sender: TObject);
@@ -64,13 +74,12 @@ implementation
 
 { TForm2 }
 
-//Botao sair
-procedure TForm2.Button2Click(Sender: TObject);
+procedure TForm2.ExitButtonClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TForm2.Button3Click(Sender: TObject);
+procedure TForm2.ResetButtonClick(Sender: TObject);
 begin
   Edit1.Text := '0';
   Edit2.Text := '0';
@@ -82,7 +91,6 @@ begin
   Edit1.SetFocus;
 end;
 
-//ComboBox entrada
 procedure TForm2.InputComboBoxChange(Sender: TObject);
 begin
   TrackBar1.Position := 0;
@@ -90,7 +98,6 @@ begin
   TrackBar3.Position := 0;
 end;
 
-//Evento edit1 KeyPress
 procedure TForm2.Edit1KeyPress(Sender: TObject; var Key: char);
 begin
   if Key = #13 then
@@ -101,7 +108,6 @@ begin
   end;
 end;
 
-//Evento edit1 MouseUp
 procedure TForm2.Edit1MouseUp(Sender: TObject);
 begin
   if Edit1.SelLength = 0 then
@@ -111,7 +117,6 @@ begin
   end;
 end;
 
-//Edit2 entrada
 procedure TForm2.Edit2Change(Sender: TObject);
 begin
   if not ((Edit2.Text = '') or (Edit2.Text[Length(Edit2.Text)] in ['0'..'9', ','])) then
@@ -121,7 +126,6 @@ begin
   end;
 end;
 
-//Evento edit2 KeyPress
 procedure TForm2.Edit2KeyPress(Sender: TObject; var Key: char);
 begin
   if Key = #13 then
@@ -131,7 +135,6 @@ begin
   end;
 end;
 
-//Evento edit2 MouseUp
 procedure TForm2.Edit2MouseUp(Sender: TObject);
 begin
   if Edit2.SelLength = 0 then
@@ -141,17 +144,15 @@ begin
   end;
 end;
 
-//Evento edit3 KeyPress
 procedure TForm2.Edit3KeyPress(Sender: TObject; var Key: char);
 begin
   if Key = #13 then
   begin
     Key := #0;
-    Button1.SetFocus;
+    ConvertButton.SetFocus;
   end;
 end;
 
-//Evento edit3 MouseUp
 procedure TForm2.Edit3MouseUp(Sender: TObject);
 begin
   if Edit3.SelLength = 0 then
@@ -161,7 +162,6 @@ begin
   end;
 end;
 
-//Evento edit4 MouseUp
 procedure TForm2.Edit4MouseUp(Sender: TObject);
 begin
   if Edit4.SelLength = 0 then
@@ -171,7 +171,6 @@ begin
   end;
 end;
 
-//Evento edit5 MouseUp
 procedure TForm2.Edit5MouseUp(Sender: TObject);
 begin
   if Edit5.SelLength = 0 then
@@ -181,7 +180,6 @@ begin
   end;
 end;
 
-//Evento edit6 MouseUp
 procedure TForm2.Edit6MouseUp(Sender: TObject);
 begin
   if Edit6.SelLength = 0 then
@@ -196,13 +194,11 @@ begin
 
 end;
 
-//Evento janela aberta
 procedure TForm2.FormShow(Sender: TObject);
 begin
   Edit1.SetFocus;
 end;
 
-//Trackbar 1
 procedure TForm2.TrackBar1Change(Sender: TObject);
 var
   inputComboBoxText: String;
@@ -221,7 +217,6 @@ begin
   Edit1.Text := IntToStr(Trackbar1.Position);
 end;
 
-//Trackbar 2
 procedure TForm2.TrackBar2Change(Sender: TObject);
 var
   inputComboBoxText: String;
@@ -240,7 +235,6 @@ begin
   Edit2.Text := IntToStr(Trackbar2.Position);
 end;
 
-//Trackbar 2
 procedure TForm2.TrackBar3Change(Sender: TObject);
 var
   inputComboBoxText: String;
@@ -259,15 +253,15 @@ begin
   Edit3.Text := IntToStr(Trackbar3.Position);
 end;
 
-//Botao converter
-procedure TForm2.Button1Click(Sender: TObject);
+procedure TForm2.ConvertButtonClick(Sender: TObject);
 var
-  Text1, Text2, Text3: Integer;
-  red, green, blue, hue, saturation, value, Cmax, Cmin, delta, c, x, m: Double;
-  InputComboBoxText, OutputComboBoxText, Output1, Output2, Output3: String;
+  text1, text2, text3: Integer;
+  red, green, blue, hue, saturation, value, cMax, cMin, delta: Double;
+  chroma, intermediateComponent, matchComponent: Double;
+  inputComboBoxText, outputComboBoxText, output1, output2, output3: String;
 begin
-  InputComboBoxText := InputComboBox.Text;
-  OutputComboBoxText := OutputComboBox.Text;
+  inputComboBoxText := InputComboBox.Text;
+  outputComboBoxText := OutputComboBox.Text;
 
   if (Trim(Edit1.Text) = '') or (Trim(Edit2.Text) = '') or (Trim(Edit3.Text) = '') or
      (Trim(Edit2.Text) = ',') or (Trim(Edit2.Text) = ',,') or (Trim(Edit2.Text) = ',,,') or (Trim(Edit1.Text) = ',,,,') or
@@ -277,12 +271,12 @@ begin
     Exit;
   end;
 
-  Text1 := StrToInt(Edit1.Text);
-  Text2 := StrToInt(Edit2.Text);
-  Text3 := StrToInt(Edit3.Text);
+  text1 := StrToInt(Edit1.Text);
+  text2 := StrToInt(Edit2.Text);
+  text3 := StrToInt(Edit3.Text);
 
-  if ((InputComboBoxText = 'RGB') and ((Text1 > 255) or (Text2 > 255) or (Text3 > 255))) or
-     ((InputComboBoxText = 'HSV') and ((Text1 > 360) or (Text2 > 100) or (Text3 > 100))) then
+  if ((inputComboBoxText = 'RGB') and ((text1 > 255) or (text2 > 255) or (text3 > 255))) or
+     ((inputComboBoxText = 'HSV') and ((text1 > 360) or (text2 > 100) or (text3 > 100))) then
   begin
     Label3.Caption := 'Valor de entrada inválido.';
   end
@@ -290,111 +284,107 @@ begin
   begin
     Label3.Caption := '';
 
-    if (InputComboBoxText = 'RGB') and (OutputComboBoxText = 'HSV') then
+    if (inputComboBoxText = 'RGB') and (outputComboBoxText = 'HSV') then
     begin
-      red := Text1/255;
-      green := Text2/255;
-      blue := Text3/255;
+      red := text1 / 255;
+      green := text2 / 255;
+      blue := text3 / 255;
 
-      Cmax := Max(red, Max(green, blue));
-      Cmin := Min(red, Min(green, blue));
-      delta := Cmax - Cmin;
+      cMax := Max(red, Max(green, blue));
+      cMin := Min(red, Min(green, blue));
+      delta := cMax - cMin;
 
       if delta = 0 then
         hue := 0
-      else if Cmax = red then
-        hue := 60 * ((green-blue)/delta)
-      else if Cmax = green then
-        hue := 60 * ((blue-red)/delta) + 120
+      else if cMax = red then
+        hue := 60 * ((green - blue) / delta)
+      else if cMax = green then
+        hue := 60 * ((blue - red) / delta) + 120
       else
-        hue := 60 * ((red-green)/delta) + 240;
+        hue := 60 * ((red - green) / delta) + 240;
 
       if hue < 0 then
         hue := hue + 360;
 
       hue := Round(hue);
 
-      if Cmax = 0 then
+      if cMax = 0 then
         saturation := 0
       else
-        saturation := delta/Cmax;
+        saturation := delta / cMax;
 
-      value := Cmax;
+      value := cMax;
 
-      saturation := saturation*100;
-      value := value*100;
+      saturation := saturation * 100;
+      value := value * 100;
 
-      Output1 := FloatToStr(hue);
-      Output2 := FloatToStr(saturation);
-      Output3 := FloatToStr(value);
+      output1 := FloatToStr(hue);
+      output2 := FloatToStr(saturation);
+      output3 := FloatToStr(value);
 
-      Edit4.Text := Output1;
-      Edit5.Text := Output2;
-      Edit6.Text := Output3;
+      Edit4.Text := output1;
+      Edit5.Text := output2;
+      Edit6.Text := output3;
 
     end
-    else if (InputComboBoxText = 'HSV') and (OutputComboBoxText = 'RGB') then
+    else if (inputComboBoxText = 'HSV') and (outputComboBoxText = 'RGB') then
     begin
-      hue := Text1;
-      saturation := Text2/100;
-      value := Text3/100;
+      hue := text1;
+      saturation := text2 / 100;
+      value := text3 / 100;
 
-      c := value * saturation;
-      x := c * (1-(hue/60) mod 2 - 1);
-      if x < 0 then
-      begin
-        x := x * (-1);
-      end;
-      m := value - c;
+      chroma := value * saturation;
+      intermediateComponent := chroma * (1 - Abs((hue / 60) mod 2 - 1));
+      matchComponent := value - chroma;
 
       if (hue >= 0) and (hue < 60) then
       begin
-        red := c;
-        green := x;
+        red := chroma;
+        green := intermediateComponent;
         blue := 0;
       end
       else if (hue >= 60) and (hue < 120) then
       begin
-        red := x;
-        green := c;
+        red := intermediateComponent;
+        green := chroma;
         blue := 0;
       end
       else if (hue >= 120) and (hue < 180) then
       begin
         red := 0;
-        green := c;
-        blue := x;
+        green := chroma;
+        blue := intermediateComponent;
       end
       else if (hue >= 180) and (hue < 240) then
       begin
         red := 0;
-        green := x;
-        blue := c;
+        green := intermediateComponent;
+        blue := chroma;
       end
       else if (hue >= 240) and (hue < 300) then
       begin
-        red := x;
+        red := intermediateComponent;
         green := 0;
-        blue := c;
+        blue := chroma;
       end
       else
       begin
-        red := c;
+        red := chroma;
         green := 0;
-        blue := x;
+        blue := intermediateComponent;
       end;
 
-      red := (red+m)*255;
-      green := (green+m)*255;
-      blue := (blue+m)*255;
+      red := (red + matchComponent) * 255;
+      green := (green + matchComponent) * 255;
+      blue := (blue + matchComponent) * 255;
 
-      Output1 := IntToStr(Round(red));
-      Output2 := IntToStr(Round(green));
-      Output3 := IntToStr(Round(blue));
+      output1 := IntToStr(Round(red));
+      output2 := IntToStr(Round(green));
+      output3 := IntToStr(Round(blue));
 
-      Edit4.Text := Output1;
-      Edit5.Text := Output2;
-      Edit6.Text := Output3;
+      Edit4.Text := output1;
+      Edit5.Text := output2;
+      Edit6.Text := output3;
     end
     else
     begin
@@ -406,7 +396,6 @@ begin
     Edit1.SetFocus;
   end;
 end;
-
 
 end.
 

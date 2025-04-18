@@ -515,6 +515,25 @@ begin
 end;
 
 {------------------------------------------------------------------------------
+  Procedure Name: Edit1Change
+  Purpose       : Handles the Change event for Edit1. Ensures that only numeric characters
+                  and commas are allowed in the input. If any invalid character is entered,
+                  the last character is removed.
+  Parameters    : Sender - the component that triggered the event (Edit1)
+  Notes         : This procedure prevents users from entering non-numeric characters
+                  or anything other than commas in the Edit1 input field. If an invalid
+                  character is entered, it is removed from the input.
+------------------------------------------------------------------------------}
+procedure TForm2.Edit1Change(Sender: TObject);
+begin
+  if not ((Edit1.Text = '') or (Edit1.Text[Length(Edit1.Text)] in ['0'..'9', ','])) then
+  begin
+    Edit1.Text := Copy(Edit1.Text, 1, Length(Edit1.Text) - 1);
+    Exit;
+  end;
+end;
+
+{------------------------------------------------------------------------------
   Procedure Name: Edit2Change
   Purpose       : Handles the Change event for Edit2. Ensures that only numeric characters
                   and commas are allowed in the input. If any invalid character is entered,
@@ -529,6 +548,25 @@ begin
   if not ((Edit2.Text = '') or (Edit2.Text[Length(Edit2.Text)] in ['0'..'9', ','])) then
   begin
     Edit2.Text := Copy(Edit2.Text, 1, Length(Edit2.Text) - 1);
+    Exit;
+  end;
+end;
+
+{------------------------------------------------------------------------------
+  Procedure Name: Edit3Change
+  Purpose       : Handles the Change event for Edit3. Ensures that only numeric characters
+                  and commas are allowed in the input. If any invalid character is entered,
+                  the last character is removed.
+  Parameters    : Sender - the component that triggered the event (Edit3)
+  Notes         : This procedure prevents users from entering non-numeric characters
+                  or anything other than commas in the Edit3 input field. If an invalid
+                  character is entered, it is removed from the input.
+------------------------------------------------------------------------------}
+procedure TForm2.Edit3Change(Sender: TObject);
+begin
+  if not ((Edit3.Text = '') or (Edit3.Text[Length(Edit3.Text)] in ['0'..'9', ','])) then
+  begin
+    Edit3.Text := Copy(Edit3.Text, 1, Length(Edit3.Text) - 1);
     Exit;
   end;
 end;

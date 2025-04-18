@@ -41,8 +41,6 @@ type
     TrackBar2: TTrackBar;
     TrackBar3: TTrackBar;
     procedure ConvertButtonClick(Sender: TObject);
-    procedure Edit1Change(Sender: TObject);
-    procedure Edit3Change(Sender: TObject);
     procedure ExitButtonClick(Sender: TObject);
     procedure ResetButtonClick(Sender: TObject);
     procedure InputComboBoxChange(Sender: TObject);
@@ -517,13 +515,13 @@ begin
 end;
 
 {------------------------------------------------------------------------------
-  Procedure Name: Edit2Change
-  Purpose       : Handles the Change event for Edit2. Ensures that only numeric characters
+  Procedure Name: Edit1Change
+  Purpose       : Handles the Change event for Edit1. Ensures that only numeric characters
                   and commas are allowed in the input. If any invalid character is entered,
                   the last character is removed.
-  Parameters    : Sender - the component that triggered the event (Edit2)
+  Parameters    : Sender - the component that triggered the event (Edit1)
   Notes         : This procedure prevents users from entering non-numeric characters
-                  or anything other than commas in the Edit2 input field. If an invalid
+                  or anything other than commas in the Edit1 input field. If an invalid
                   character is entered, it is removed from the input.
 ------------------------------------------------------------------------------}
 procedure TForm2.Edit1Change(Sender: TObject);
@@ -535,6 +533,16 @@ begin
   end;
 end;
 
+{------------------------------------------------------------------------------
+  Procedure Name: Edit2Change
+  Purpose       : Handles the Change event for Edit2. Ensures that only numeric characters
+                  and commas are allowed in the input. If any invalid character is entered,
+                  the last character is removed.
+  Parameters    : Sender - the component that triggered the event (Edit2)
+  Notes         : This procedure prevents users from entering non-numeric characters
+                  or anything other than commas in the Edit2 input field. If an invalid
+                  character is entered, it is removed from the input.
+------------------------------------------------------------------------------}
 procedure TForm2.Edit2Change(Sender: TObject);
 begin
   if not ((Edit2.Text = '') or (Edit2.Text[Length(Edit2.Text)] in ['0'..'9', ','])) then
@@ -544,6 +552,16 @@ begin
   end;
 end;
 
+{------------------------------------------------------------------------------
+  Procedure Name: Edit1Change
+  Purpose       : Handles the Change event for Edit1. Ensures that only numeric characters
+                  and commas are allowed in the input. If any invalid character is entered,
+                  the last character is removed.
+  Parameters    : Sender - the component that triggered the event (Edit1)
+  Notes         : This procedure prevents users from entering non-numeric characters
+                  or anything other than commas in the Edit1 input field. If an invalid
+                  character is entered, it is removed from the input.
+------------------------------------------------------------------------------}
 procedure TForm2.Edit3Change(Sender: TObject);
 begin
   if not ((Edit3.Text = '') or (Edit3.Text[Length(Edit3.Text)] in ['0'..'9', ','])) then

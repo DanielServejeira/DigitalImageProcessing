@@ -1,11 +1,12 @@
 object Form2: TForm2
   Left = 701
-  Height = 539
+  Height = 471
   Top = 302
-  Width = 384
+  Width = 416
   Caption = 'Conversor de Sistemas de Cor'
   ClientHeight = 0
   ClientWidth = 0
+  OnCreate = FormCreate
   OnShow = FormShow
   LCLVersion = '3.8.0.0'
   object Label1: TLabel
@@ -23,7 +24,7 @@ object Form2: TForm2
   object Label2: TLabel
     Left = 32
     Height = 15
-    Top = 304
+    Top = 312
     Width = 29
     Caption = 'Saída'
     Font.CharSet = ANSI_CHARSET
@@ -33,7 +34,7 @@ object Form2: TForm2
     ParentFont = False
   end
   object Button1: TButton
-    Left = 152
+    Left = 173
     Height = 57
     Top = 224
     Width = 75
@@ -76,9 +77,9 @@ object Form2: TForm2
     OnMouseUp = Edit3MouseUp
   end
   object Edit4: TEdit
-    Left = 104
+    Left = 136
     Height = 23
-    Top = 328
+    Top = 336
     Width = 40
     MaxLength = 3
     NumbersOnly = True
@@ -87,9 +88,9 @@ object Form2: TForm2
     OnMouseUp = Edit4MouseUp
   end
   object Edit5: TEdit
-    Left = 104
+    Left = 192
     Height = 23
-    Top = 376
+    Top = 336
     Width = 40
     MaxLength = 4
     TabOrder = 5
@@ -97,9 +98,9 @@ object Form2: TForm2
     OnMouseUp = Edit5MouseUp
   end
   object Edit6: TEdit
-    Left = 104
+    Left = 248
     Height = 23
-    Top = 424
+    Top = 336
     Width = 40
     MaxLength = 4
     ReadOnly = True
@@ -108,15 +109,15 @@ object Form2: TForm2
     OnMouseUp = Edit6MouseUp
   end
   object Button2: TButton
-    Left = 152
+    Left = 173
     Height = 40
-    Top = 472
+    Top = 408
     Width = 75
     Caption = 'Sair'
     TabOrder = 7
     OnClick = Button2Click
   end
-  object ComboBox1: TComboBox
+  object InputComboBox: TComboBox
     Left = 32
     Height = 23
     Top = 64
@@ -131,12 +132,12 @@ object Form2: TForm2
     Style = csDropDownList
     TabOrder = 8
     Text = 'RGB'
-    OnChange = ComboBox1Change
+    OnChange = InputComboBoxChange
   end
-  object ComboBox2: TComboBox
+  object OutputComboBox: TComboBox
     Left = 32
     Height = 23
-    Top = 328
+    Top = 336
     Width = 54
     ItemHeight = 15
     ItemIndex = 0
@@ -165,9 +166,42 @@ object Form2: TForm2
     Left = 32
     Height = 57
     Top = 224
-    Width = 56
+    Width = 58
     Caption = 'Reset'
     TabOrder = 10
     OnClick = Button3Click
+  end
+  object TrackBar1: TTrackBar
+    Left = 152
+    Height = 33
+    Top = 64
+    Width = 240
+    Max = 255
+    OnChange = TrackBar1Change
+    Position = 0
+    TickStyle = tsNone
+    TabOrder = 11
+  end
+  object TrackBar2: TTrackBar
+    Left = 152
+    Height = 33
+    Top = 112
+    Width = 240
+    Max = 255
+    OnChange = TrackBar2Change
+    Position = 0
+    TickStyle = tsNone
+    TabOrder = 12
+  end
+  object TrackBar3: TTrackBar
+    Left = 152
+    Height = 33
+    Top = 160
+    Width = 240
+    Max = 255
+    OnChange = TrackBar3Change
+    Position = 0
+    TickStyle = tsNone
+    TabOrder = 13
   end
 end

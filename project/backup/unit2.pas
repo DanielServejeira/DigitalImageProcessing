@@ -5,7 +5,8 @@ unit Unit2;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Math;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ComCtrls,
+  Math;
 
 type
 
@@ -15,8 +16,8 @@ type
     Button1: TButton;
     Button2: TButton;
     Button3: TButton;
-    ComboBox1: TComboBox;
-    ComboBox2: TComboBox;
+    InputComboBox: TComboBox;
+    OutputComboBox: TComboBox;
     Edit1: TEdit;
     Edit2: TEdit;
     Edit3: TEdit;
@@ -26,10 +27,13 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
+    TrackBar1: TTrackBar;
+    TrackBar2: TTrackBar;
+    TrackBar3: TTrackBar;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
-    procedure ComboBox1Change(Sender: TObject);
+    procedure InputComboBoxChange(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: char);
     procedure Edit1MouseUp(Sender: TObject);
     procedure Edit2Change(Sender: TObject);
@@ -40,7 +44,11 @@ type
     procedure Edit4MouseUp(Sender: TObject);
     procedure Edit5MouseUp(Sender: TObject);
     procedure Edit6MouseUp(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure TrackBar1Change(Sender: TObject);
+    procedure TrackBar2Change(Sender: TObject);
+    procedure TrackBar3Change(Sender: TObject);
   private
 
   public
@@ -75,9 +83,11 @@ begin
 end;
 
 //ComboBox entrada
-procedure TForm2.ComboBox1Change(Sender: TObject);
+procedure TForm2.InputComboBoxChange(Sender: TObject);
 begin
-
+  TrackBar1.Position := 0;
+  TrackBar2.Position := 0;
+  TrackBar3.Position := 0;
 end;
 
 //Evento edit1 KeyPress
@@ -86,6 +96,7 @@ begin
   if Key = #13 then
   begin
     Key := #0;
+    Trackbar1.Position := StrToInt(Edit1.Text);
     Edit2.SetFocus;
   end;
 end;
@@ -180,10 +191,72 @@ begin
   end;
 end;
 
+procedure TForm2.FormCreate(Sender: TObject);
+begin
+
+end;
+
 //Evento janela aberta
 procedure TForm2.FormShow(Sender: TObject);
 begin
   Edit1.SetFocus;
+end;
+
+//Trackbar 1
+procedure TForm2.TrackBar1Change(Sender: TObject);
+var
+  inputComboBoxText: String;
+begin
+  inputComboBoxText := InputComboBox.Text;
+
+  if inputComboBoxText = 'RGB' then
+  begin
+    TrackBar1.Max := 255
+  end
+  else if inputComboBoxText = 'HSV' then
+  begin
+    TrackBar1.Max := 360;
+  end;
+
+  Edit1.Text := IntToStr(Trackbar1.Position);
+end;
+
+//Trackbar 2
+procedure TForm2.TrackBar2Change(Sender: TObject);
+var
+  inputComboBoxText: String;
+begin
+  inputComboBoxText := InputComboBox.Text;
+
+  if inputComboBoxText = 'RGB' then
+  begin
+    TrackBar2.Max := 255
+  end
+  else if inputComboBoxText = 'HSV' then
+  begin
+    TrackBar2.Max := 100;
+  end;
+
+  Edit2.Text := IntToStr(Trackbar2.Position);
+end;
+
+//Trackbar 2
+procedure TForm2.TrackBar3Change(Sender: TObject);
+var
+  inputComboBoxText: String;
+begin
+  inputComboBoxText := InputComboBox.Text;
+
+  if inputComboBoxText = 'RGB' then
+  begin
+    TrackBar3.Max := 255
+  end
+  else if inputComboBoxText = 'HSV' then
+  begin
+    TrackBar3.Max := 100;
+  end;
+
+  Edit3.Text := IntToStr(Trackbar3.Position);
 end;
 
 //Botao converter
@@ -191,10 +264,10 @@ procedure TForm2.Button1Click(Sender: TObject);
 var
   Text1, Text2, Text3: Integer;
   red, green, blue, hue, saturation, value, Cmax, Cmin, delta, c, x, m: Double;
-  InputComboBox, OutputComboBox, Output1, Output2, Output3: String;
+  InputComboBoxText, OutputComboBoxText, Output1, Output2, Output3: String;
 begin
-  InputComboBox := ComboBox1.Text;
-  OutputComboBox := ComboBox2.Text;
+  InputComboBoxText := InputComboBox.Text;
+  OutputComboBoxText := OutputComboBox.Text;
 
   if (Trim(Edit1.Text) = '') or (Trim(Edit2.Text) = '') or (Trim(Edit3.Text) = '') or
      (Trim(Edit2.Text) = ',') or (Trim(Edit2.Text) = ',,') or (Trim(Edit2.Text) = ',,,') or (Trim(Edit1.Text) = ',,,,') or
@@ -208,8 +281,8 @@ begin
   Text2 := StrToInt(Edit2.Text);
   Text3 := StrToInt(Edit3.Text);
 
-  if ((InputComboBox = 'RGB') and ((Text1 > 255) or (Text2 > 255) or (Text3 > 255))) or
-     ((InputComboBox = 'HSV') and ((Text1 > 360) or (Text2 > 100) or (Text3 > 100))) then
+  if ((InputComboBoxText = 'RGB') and ((Text1 > 255) or (Text2 > 255) or (Text3 > 255))) or
+     ((InputComboBoxText = 'HSV') and ((Text1 > 360) or (Text2 > 100) or (Text3 > 100))) then
   begin
     Label3.Caption := 'Valor de entrada inválido.';
   end
@@ -217,7 +290,7 @@ begin
   begin
     Label3.Caption := '';
 
-    if (InputComboBox = 'RGB') and (OutputComboBox = 'HSV') then
+    if (InputComboBoxText = 'RGB') and (OutputComboBoxText = 'HSV') then
     begin
       red := Text1/255;
       green := Text2/255;
@@ -260,7 +333,7 @@ begin
       Edit6.Text := Output3;
 
     end
-    else if (InputComboBox = 'HSV') and (OutputComboBox = 'RGB') then
+    else if (InputComboBoxText = 'HSV') and (OutputComboBoxText = 'RGB') then
     begin
       hue := Text1;
       saturation := Text2/100;
@@ -270,7 +343,7 @@ begin
       x := c * (1-(hue/60) mod 2 - 1);
       if x < 0 then
       begin
-        x = x * (-1);
+        x := x * (-1);
       end;
       m := value - c;
 

@@ -1,3 +1,13 @@
+{******************************************************************************
+  Unit Name    : ColorModelConverter
+  Purpose      : Color model conversion between RGB and HSV
+  Description  : This unit implements functionality to convert color values
+                 between RGB (Red, Green, Blue) and HSV (Hue, Saturation, Value)
+                 models, using a graphical user interface for input and output.
+  Author       : Daniel Servejeira & Raphael Leiva
+  Date Started : April, 2025
+******************************************************************************}
+
 unit Unit2;
 
 {$mode ObjFPC}{$H+}
@@ -13,9 +23,9 @@ type
   { TForm2 }
 
   TForm2 = class(TForm)
-    Button1: TButton;
-    Button2: TButton;
-    Button3: TButton;
+    ConvertButton: TButton;
+    ExitButton: TButton;
+    ResetButton: TButton;
     InputComboBox: TComboBox;
     OutputComboBox: TComboBox;
     Edit1: TEdit;
@@ -24,15 +34,15 @@ type
     Edit4: TEdit;
     Edit5: TEdit;
     Edit6: TEdit;
-    Label1: TLabel;
-    Label2: TLabel;
+    InputLabel: TLabel;
+    OutputLabel: TLabel;
     Label3: TLabel;
     TrackBar1: TTrackBar;
     TrackBar2: TTrackBar;
     TrackBar3: TTrackBar;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
+    procedure ConvertButtonClick(Sender: TObject);
+    procedure ExitButtonClick(Sender: TObject);
+    procedure ResetButtonClick(Sender: TObject);
     procedure InputComboBoxChange(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: char);
     procedure Edit1MouseUp(Sender: TObject);
@@ -44,7 +54,6 @@ type
     procedure Edit4MouseUp(Sender: TObject);
     procedure Edit5MouseUp(Sender: TObject);
     procedure Edit6MouseUp(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure TrackBar1Change(Sender: TObject);
     procedure TrackBar2Change(Sender: TObject);
@@ -64,13 +73,21 @@ implementation
 
 { TForm2 }
 
-//Botao sair
-procedure TForm2.Button2Click(Sender: TObject);
+procedure TForm2.ExitButtonClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TForm2.Button3Click(Sender: TObject);
+{------------------------------------------------------------------------------
+  Procedure Name: ResetButtonClick
+  Purpose       : Resets all input and output fields to their default values.
+                  Sets all the text fields (Edit1, Edit2, Edit3, Edit4, Edit5, Edit6)
+                  to '0' and places the focus on Edit1.
+  Parameters    : Sender - the component that triggered the event (ResetButton)
+  Notes         : This procedure is typically used to clear all user inputs and
+                  reset the form to its initial state.
+------------------------------------------------------------------------------}
+procedure TForm2.ResetButtonClick(Sender: TObject);
 begin
   Edit1.Text := '0';
   Edit2.Text := '0';
@@ -82,7 +99,15 @@ begin
   Edit1.SetFocus;
 end;
 
-//ComboBox entrada
+{------------------------------------------------------------------------------
+  Procedure Name: InputComboBoxChange
+  Purpose       : Resets the positions of TrackBar1, TrackBar2, and TrackBar3
+                  to 0 whenever the user changes the selected option in the
+                  InputComboBox.
+  Parameters    : Sender - the component that triggered the event (InputComboBox)
+  Notes         : This procedure ensures that the trackbars are reset when the
+                  input model (RGB or HSV) is changed.
+------------------------------------------------------------------------------}
 procedure TForm2.InputComboBoxChange(Sender: TObject);
 begin
   TrackBar1.Position := 0;
@@ -90,7 +115,17 @@ begin
   TrackBar3.Position := 0;
 end;
 
-//Evento edit1 KeyPress
+{------------------------------------------------------------------------------
+  Procedure Name: Edit1KeyPress
+  Purpose       : Handles the KeyPress event for Edit1. When the Enter key is pressed,
+                  the value in Edit1 is transferred to TrackBar1, and the focus is
+                  shifted to Edit2.
+  Parameters    : Sender - the component that triggered the event (Edit1)
+                  Key    - the character key that was pressed
+  Notes         : This procedure ensures that when the Enter key is pressed,
+                  the value from Edit1 is used to update TrackBar1 and the focus
+                  is moved to Edit2.
+------------------------------------------------------------------------------}
 procedure TForm2.Edit1KeyPress(Sender: TObject; var Key: char);
 begin
   if Key = #13 then
@@ -101,7 +136,14 @@ begin
   end;
 end;
 
-//Evento edit1 MouseUp
+{------------------------------------------------------------------------------
+  Procedure Name: Edit1MouseUp
+  Purpose       : Handles the mouse-up event on the Edit1 component.
+                  Selects all text in the Edit1 field when there is no text selected.
+  Parameters    : Sender - the component that triggered the event (Edit1)
+  Notes         : This procedure ensures that if no text is selected, the entire
+                  content of Edit1 is selected when the user clicks inside the field.
+------------------------------------------------------------------------------}
 procedure TForm2.Edit1MouseUp(Sender: TObject);
 begin
   if Edit1.SelLength = 0 then
@@ -111,17 +153,17 @@ begin
   end;
 end;
 
-//Edit2 entrada
-procedure TForm2.Edit2Change(Sender: TObject);
-begin
-  if not ((Edit2.Text = '') or (Edit2.Text[Length(Edit2.Text)] in ['0'..'9', ','])) then
-  begin
-    Edit2.Text := Copy(Edit2.Text, 1, Length(Edit2.Text) - 1);
-    Exit;
-  end;
-end;
-
-//Evento edit2 KeyPress
+{------------------------------------------------------------------------------
+  Procedure Name: Edit2KeyPress
+  Purpose       : Handles the KeyPress event for Edit2. When the Enter key is pressed,
+                  the value in Edit2 is transferred to TrackBar2, and the focus is
+                  shifted to Edit3.
+  Parameters    : Sender - the component that triggered the event (Edit2)
+                  Key    - the character key that was pressed
+  Notes         : This procedure ensures that when the Enter key is pressed,
+                  the value from Edit2 is used to update TrackBar2 and the focus
+                  is moved to Edit3.
+------------------------------------------------------------------------------}
 procedure TForm2.Edit2KeyPress(Sender: TObject; var Key: char);
 begin
   if Key = #13 then
@@ -131,7 +173,14 @@ begin
   end;
 end;
 
-//Evento edit2 MouseUp
+{------------------------------------------------------------------------------
+  Procedure Name: Edit2MouseUp
+  Purpose       : Handles the mouse-up event on the Edit2 component.
+                  Selects all text in the Edit2 field when there is no text selected.
+  Parameters    : Sender - the component that triggered the event (Edit2)
+  Notes         : This procedure ensures that if no text is selected, the entire
+                  content of Edit2 is selected when the user clicks inside the field.
+------------------------------------------------------------------------------}
 procedure TForm2.Edit2MouseUp(Sender: TObject);
 begin
   if Edit2.SelLength = 0 then
@@ -141,17 +190,34 @@ begin
   end;
 end;
 
-//Evento edit3 KeyPress
+{------------------------------------------------------------------------------
+  Procedure Name: Edit2KeyPress
+  Purpose       : Handles the KeyPress event for Edit3. When the Enter key is pressed,
+                  the value in Edit3 is transferred to TrackBar3, and the focus is
+                  shifted to ConvertButton.
+  Parameters    : Sender - the component that triggered the event (Edit3)
+                  Key    - the character key that was pressed
+  Notes         : This procedure ensures that when the Enter key is pressed,
+                  the value from Edit3 is used to update TrackBar3 and the focus
+                  is moved to ConvertButton.
+------------------------------------------------------------------------------}
 procedure TForm2.Edit3KeyPress(Sender: TObject; var Key: char);
 begin
   if Key = #13 then
   begin
     Key := #0;
-    Button1.SetFocus;
+    ConvertButton.SetFocus;
   end;
 end;
 
-//Evento edit3 MouseUp
+{------------------------------------------------------------------------------
+  Procedure Name: Edit3MouseUp
+  Purpose       : Handles the mouse-up event on the Edit3 component.
+                  Selects all text in the Edit3 field when there is no text selected.
+  Parameters    : Sender - the component that triggered the event (Edit3)
+  Notes         : This procedure ensures that if no text is selected, the entire
+                  content of Edit3 is selected when the user clicks inside the field.
+------------------------------------------------------------------------------}
 procedure TForm2.Edit3MouseUp(Sender: TObject);
 begin
   if Edit3.SelLength = 0 then
@@ -161,7 +227,14 @@ begin
   end;
 end;
 
-//Evento edit4 MouseUp
+{------------------------------------------------------------------------------
+  Procedure Name: Edit4MouseUp
+  Purpose       : Handles the mouse-up event on the Edit4 component.
+                  Selects all text in the Edit4 field when there is no text selected.
+  Parameters    : Sender - the component that triggered the event (Edit4)
+  Notes         : This procedure ensures that if no text is selected, the entire
+                  content of Edit4 is selected when the user clicks inside the field.
+------------------------------------------------------------------------------}
 procedure TForm2.Edit4MouseUp(Sender: TObject);
 begin
   if Edit4.SelLength = 0 then
@@ -171,7 +244,14 @@ begin
   end;
 end;
 
-//Evento edit5 MouseUp
+{------------------------------------------------------------------------------
+  Procedure Name: Edit5MouseUp
+  Purpose       : Handles the mouse-up event on the Edit5 component.
+                  Selects all text in the Edit5 field when there is no text selected.
+  Parameters    : Sender - the component that triggered the event (Edit5)
+  Notes         : This procedure ensures that if no text is selected, the entire
+                  content of Edit5 is selected when the user clicks inside the field.
+------------------------------------------------------------------------------}
 procedure TForm2.Edit5MouseUp(Sender: TObject);
 begin
   if Edit5.SelLength = 0 then
@@ -181,7 +261,14 @@ begin
   end;
 end;
 
-//Evento edit6 MouseUp
+{------------------------------------------------------------------------------
+  Procedure Name: Edit6MouseUp
+  Purpose       : Handles the mouse-up event on the Edit6 component.
+                  Selects all text in the Edit6 field when there is no text selected.
+  Parameters    : Sender - the component that triggered the event (Edit6)
+  Notes         : This procedure ensures that if no text is selected, the entire
+                  content of Edit6 is selected when the user clicks inside the field.
+------------------------------------------------------------------------------}
 procedure TForm2.Edit6MouseUp(Sender: TObject);
 begin
   if Edit6.SelLength = 0 then
@@ -191,18 +278,24 @@ begin
   end;
 end;
 
-procedure TForm2.FormCreate(Sender: TObject);
-begin
-
-end;
-
-//Evento janela aberta
+{------------------------------------------------------------------------------
+  Procedure Name: FormShow
+  Purpose       : Handles initialization actions when the form is displayed
+  Parameters    : Sender - the component that triggered the event (usually Form1)
+  Notes         : Sets focus to Edit1 when the form becomes visible
+------------------------------------------------------------------------------}
 procedure TForm2.FormShow(Sender: TObject);
 begin
   Edit1.SetFocus;
 end;
 
-//Trackbar 1
+{------------------------------------------------------------------------------
+  Procedure Name: TrackBar1Change
+  Purpose       : Updates the first trackbar's maximum value and related text field
+  Parameters    : Sender - the component that triggered the event (usually TrackBar1)
+  Notes         : Sets the maximum range based on the selected color model (RGB or HSV)
+                  and updates Edit1 with the current trackbar position
+------------------------------------------------------------------------------}
 procedure TForm2.TrackBar1Change(Sender: TObject);
 var
   inputComboBoxText: String;
@@ -221,7 +314,13 @@ begin
   Edit1.Text := IntToStr(Trackbar1.Position);
 end;
 
-//Trackbar 2
+{------------------------------------------------------------------------------
+  Procedure Name: TrackBar2Change
+  Purpose       : Updates the second trackbar's maximum value and related text field
+  Parameters    : Sender - the component that triggered the event (usually TrackBar2)
+  Notes         : Sets the maximum range based on the selected color model (RGB or HSV)
+                  and updates Edit2 with the current trackbar position
+------------------------------------------------------------------------------}
 procedure TForm2.TrackBar2Change(Sender: TObject);
 var
   inputComboBoxText: String;
@@ -240,7 +339,13 @@ begin
   Edit2.Text := IntToStr(Trackbar2.Position);
 end;
 
-//Trackbar 2
+{------------------------------------------------------------------------------
+  Procedure Name: TrackBar3Change
+  Purpose       : Updates the third trackbar's maximum value and related text field
+  Parameters    : Sender - the component that triggered the event (usually TrackBar3)
+  Notes         : Sets the maximum range based on the selected color model (RGB or HSV)
+                  and updates Edit3 with the current trackbar position
+------------------------------------------------------------------------------}
 procedure TForm2.TrackBar3Change(Sender: TObject);
 var
   inputComboBoxText: String;
@@ -259,15 +364,21 @@ begin
   Edit3.Text := IntToStr(Trackbar3.Position);
 end;
 
-//Botao converter
-procedure TForm2.Button1Click(Sender: TObject);
+{------------------------------------------------------------------------------
+  Procedure Name: ConvertButtonClick
+  Purpose       : Converts between RGB and HSV depending on the selected options
+  Parameters    : Sender - the event source (usually the Convert button)
+  Notes         : Validates input and updates output fields accordingly
+------------------------------------------------------------------------------}
+procedure TForm2.ConvertButtonClick(Sender: TObject);
 var
-  Text1, Text2, Text3: Integer;
-  red, green, blue, hue, saturation, value, Cmax, Cmin, delta, c, x, m: Double;
-  InputComboBoxText, OutputComboBoxText, Output1, Output2, Output3: String;
+  text1, text2, text3: Integer;
+  red, green, blue, hue, saturation, value, cMax, cMin, delta: Double;
+  chroma, intermediateComponent, matchComponent: Double;
+  inputComboBoxText, outputComboBoxText, output1, output2, output3: String;
 begin
-  InputComboBoxText := InputComboBox.Text;
-  OutputComboBoxText := OutputComboBox.Text;
+  inputComboBoxText := InputComboBox.Text;
+  outputComboBoxText := OutputComboBox.Text;
 
   if (Trim(Edit1.Text) = '') or (Trim(Edit2.Text) = '') or (Trim(Edit3.Text) = '') or
      (Trim(Edit2.Text) = ',') or (Trim(Edit2.Text) = ',,') or (Trim(Edit2.Text) = ',,,') or (Trim(Edit1.Text) = ',,,,') or
@@ -277,12 +388,12 @@ begin
     Exit;
   end;
 
-  Text1 := StrToInt(Edit1.Text);
-  Text2 := StrToInt(Edit2.Text);
-  Text3 := StrToInt(Edit3.Text);
+  text1 := StrToInt(Edit1.Text);
+  text2 := StrToInt(Edit2.Text);
+  text3 := StrToInt(Edit3.Text);
 
-  if ((InputComboBoxText = 'RGB') and ((Text1 > 255) or (Text2 > 255) or (Text3 > 255))) or
-     ((InputComboBoxText = 'HSV') and ((Text1 > 360) or (Text2 > 100) or (Text3 > 100))) then
+  if ((inputComboBoxText = 'RGB') and ((text1 > 255) or (text2 > 255) or (text3 > 255))) or
+     ((inputComboBoxText = 'HSV') and ((text1 > 360) or (text2 > 100) or (text3 > 100))) then
   begin
     Label3.Caption := 'Valor de entrada inválido.';
   end
@@ -290,111 +401,107 @@ begin
   begin
     Label3.Caption := '';
 
-    if (InputComboBoxText = 'RGB') and (OutputComboBoxText = 'HSV') then
+    if (inputComboBoxText = 'RGB') and (outputComboBoxText = 'HSV') then
     begin
-      red := Text1/255;
-      green := Text2/255;
-      blue := Text3/255;
+      red := text1 / 255;
+      green := text2 / 255;
+      blue := text3 / 255;
 
-      Cmax := Max(red, Max(green, blue));
-      Cmin := Min(red, Min(green, blue));
-      delta := Cmax - Cmin;
+      cMax := Max(red, Max(green, blue));
+      cMin := Min(red, Min(green, blue));
+      delta := cMax - cMin;
 
       if delta = 0 then
         hue := 0
-      else if Cmax = red then
-        hue := 60 * ((green-blue)/delta)
-      else if Cmax = green then
-        hue := 60 * ((blue-red)/delta) + 120
+      else if cMax = red then
+        hue := 60 * ((green - blue) / delta)
+      else if cMax = green then
+        hue := 60 * ((blue - red) / delta) + 120
       else
-        hue := 60 * ((red-green)/delta) + 240;
+        hue := 60 * ((red - green) / delta) + 240;
 
       if hue < 0 then
         hue := hue + 360;
 
       hue := Round(hue);
 
-      if Cmax = 0 then
+      if cMax = 0 then
         saturation := 0
       else
-        saturation := delta/Cmax;
+        saturation := delta / cMax;
 
-      value := Cmax;
+      value := cMax;
 
-      saturation := saturation*100;
-      value := value*100;
+      saturation := saturation * 100;
+      value := value * 100;
 
-      Output1 := FloatToStr(hue);
-      Output2 := FloatToStr(saturation);
-      Output3 := FloatToStr(value);
+      output1 := FloatToStr(hue);
+      output2 := FloatToStr(saturation);
+      output3 := FloatToStr(value);
 
-      Edit4.Text := Output1;
-      Edit5.Text := Output2;
-      Edit6.Text := Output3;
+      Edit4.Text := output1;
+      Edit5.Text := output2;
+      Edit6.Text := output3;
 
     end
-    else if (InputComboBoxText = 'HSV') and (OutputComboBoxText = 'RGB') then
+    else if (inputComboBoxText = 'HSV') and (outputComboBoxText = 'RGB') then
     begin
-      hue := Text1;
-      saturation := Text2/100;
-      value := Text3/100;
+      hue := text1;
+      saturation := text2 / 100;
+      value := text3 / 100;
 
-      c := value * saturation;
-      x := c * (1-(hue/60) mod 2 - 1);
-      if x < 0 then
-      begin
-        x := x * (-1);
-      end;
-      m := value - c;
+      chroma := value * saturation;
+      intermediateComponent := chroma * (1 - Abs((hue / 60) mod 2 - 1));
+      matchComponent := value - chroma;
 
       if (hue >= 0) and (hue < 60) then
       begin
-        red := c;
-        green := x;
+        red := chroma;
+        green := intermediateComponent;
         blue := 0;
       end
       else if (hue >= 60) and (hue < 120) then
       begin
-        red := x;
-        green := c;
+        red := intermediateComponent;
+        green := chroma;
         blue := 0;
       end
       else if (hue >= 120) and (hue < 180) then
       begin
         red := 0;
-        green := c;
-        blue := x;
+        green := chroma;
+        blue := intermediateComponent;
       end
       else if (hue >= 180) and (hue < 240) then
       begin
         red := 0;
-        green := x;
-        blue := c;
+        green := intermediateComponent;
+        blue := chroma;
       end
       else if (hue >= 240) and (hue < 300) then
       begin
-        red := x;
+        red := intermediateComponent;
         green := 0;
-        blue := c;
+        blue := chroma;
       end
       else
       begin
-        red := c;
+        red := chroma;
         green := 0;
-        blue := x;
+        blue := intermediateComponent;
       end;
 
-      red := (red+m)*255;
-      green := (green+m)*255;
-      blue := (blue+m)*255;
+      red := (red + matchComponent) * 255;
+      green := (green + matchComponent) * 255;
+      blue := (blue + matchComponent) * 255;
 
-      Output1 := IntToStr(Round(red));
-      Output2 := IntToStr(Round(green));
-      Output3 := IntToStr(Round(blue));
+      output1 := IntToStr(Round(red));
+      output2 := IntToStr(Round(green));
+      output3 := IntToStr(Round(blue));
 
-      Edit4.Text := Output1;
-      Edit5.Text := Output2;
-      Edit6.Text := Output3;
+      Edit4.Text := output1;
+      Edit5.Text := output2;
+      Edit6.Text := output3;
     end
     else
     begin
@@ -407,6 +514,62 @@ begin
   end;
 end;
 
+{------------------------------------------------------------------------------
+  Procedure Name: Edit1Change
+  Purpose       : Handles the Change event for Edit1. Ensures that only numeric characters
+                  and commas are allowed in the input. If any invalid character is entered,
+                  the last character is removed.
+  Parameters    : Sender - the component that triggered the event (Edit1)
+  Notes         : This procedure prevents users from entering non-numeric characters
+                  or anything other than commas in the Edit1 input field. If an invalid
+                  character is entered, it is removed from the input.
+------------------------------------------------------------------------------}
+procedure TForm2.Edit1Change(Sender: TObject);
+begin
+  if not ((Edit1.Text = '') or (Edit1.Text[Length(Edit1.Text)] in ['0'..'9', ','])) then
+  begin
+    Edit1.Text := Copy(Edit1.Text, 1, Length(Edit1.Text) - 1);
+    Exit;
+  end;
+end;
+
+{------------------------------------------------------------------------------
+  Procedure Name: Edit2Change
+  Purpose       : Handles the Change event for Edit2. Ensures that only numeric characters
+                  and commas are allowed in the input. If any invalid character is entered,
+                  the last character is removed.
+  Parameters    : Sender - the component that triggered the event (Edit2)
+  Notes         : This procedure prevents users from entering non-numeric characters
+                  or anything other than commas in the Edit2 input field. If an invalid
+                  character is entered, it is removed from the input.
+------------------------------------------------------------------------------}
+procedure TForm2.Edit2Change(Sender: TObject);
+begin
+  if not ((Edit2.Text = '') or (Edit2.Text[Length(Edit2.Text)] in ['0'..'9', ','])) then
+  begin
+    Edit2.Text := Copy(Edit2.Text, 1, Length(Edit2.Text) - 1);
+    Exit;
+  end;
+end;
+
+{------------------------------------------------------------------------------
+  Procedure Name: Edit3Change
+  Purpose       : Handles the Change event for Edit3. Ensures that only numeric characters
+                  and commas are allowed in the input. If any invalid character is entered,
+                  the last character is removed.
+  Parameters    : Sender - the component that triggered the event (Edit3)
+  Notes         : This procedure prevents users from entering non-numeric characters
+                  or anything other than commas in the Edit3 input field. If an invalid
+                  character is entered, it is removed from the input.
+------------------------------------------------------------------------------}
+procedure TForm2.Edit3Change(Sender: TObject);
+begin
+  if not ((Edit3.Text = '') or (Edit3.Text[Length(Edit3.Text)] in ['0'..'9', ','])) then
+  begin
+    Edit3.Text := Copy(Edit3.Text, 1, Length(Edit3.Text) - 1);
+    Exit;
+  end;
+end;
 
 end.
 

@@ -6,10 +6,9 @@ object Form2: TForm2
   Caption = 'Conversor de Sistemas de Cor'
   ClientHeight = 0
   ClientWidth = 0
-  OnCreate = FormCreate
   OnShow = FormShow
   LCLVersion = '3.8.0.0'
-  object Label1: TLabel
+  object InputLabel: TLabel
     Left = 32
     Height = 15
     Top = 40
@@ -21,7 +20,7 @@ object Form2: TForm2
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object Label2: TLabel
+  object OutputLabel: TLabel
     Left = 32
     Height = 15
     Top = 312
@@ -33,14 +32,14 @@ object Form2: TForm2
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object Button1: TButton
+  object ConvertButton: TButton
     Left = 173
     Height = 57
     Top = 224
     Width = 75
     Caption = 'Converter'
     TabOrder = 0
-    OnClick = Button1Click
+    OnClick = ConvertButtonClick
   end
   object Edit1: TEdit
     Left = 104
@@ -62,6 +61,7 @@ object Form2: TForm2
     MaxLength = 4
     TabOrder = 2
     Text = '0'
+    OnChange = Edit2Change
     OnKeyPress = Edit2KeyPress
     OnMouseUp = Edit2MouseUp
   end
@@ -83,6 +83,7 @@ object Form2: TForm2
     Width = 40
     MaxLength = 3
     NumbersOnly = True
+    ReadOnly = True
     TabOrder = 4
     Text = '0'
     OnMouseUp = Edit4MouseUp
@@ -93,6 +94,7 @@ object Form2: TForm2
     Top = 336
     Width = 40
     MaxLength = 4
+    ReadOnly = True
     TabOrder = 5
     Text = '0'
     OnMouseUp = Edit5MouseUp
@@ -108,14 +110,14 @@ object Form2: TForm2
     Text = '0'
     OnMouseUp = Edit6MouseUp
   end
-  object Button2: TButton
+  object ExitButton: TButton
     Left = 173
     Height = 40
     Top = 408
     Width = 75
     Caption = 'Sair'
     TabOrder = 7
-    OnClick = Button2Click
+    OnClick = ExitButtonClick
   end
   object InputComboBox: TComboBox
     Left = 32
@@ -162,14 +164,14 @@ object Form2: TForm2
     ParentColor = False
     ParentFont = False
   end
-  object Button3: TButton
+  object ResetButton: TButton
     Left = 32
     Height = 57
     Top = 224
     Width = 58
     Caption = 'Reset'
     TabOrder = 10
-    OnClick = Button3Click
+    OnClick = ResetButtonClick
   end
   object TrackBar1: TTrackBar
     Left = 152

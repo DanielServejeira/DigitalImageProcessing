@@ -65,6 +65,7 @@ type
     MenuItem37: TMenuItem;
     MenuItem38: TMenuItem;
     MenuCompressao: TMenuItem;
+    MenuItem39: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
@@ -115,6 +116,7 @@ type
     procedure MenuItem37Click(Sender: TObject);
     procedure MenuItem38Click(Sender: TObject);
     procedure MenuCompressaoClick(Sender: TObject);
+    procedure MenuItem39Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
@@ -963,6 +965,31 @@ begin
   EditDefine.Visible := true;
   ButtonDefine.Visible := true;
   EditDefine.SetFocus;
+end;
+
+//Operacao Sobel hor + vert
+procedure TForm1.MenuItem39Click(Sender: TObject);
+var
+  i, j, grayValue, grayValueHorizontal, grayValueVertical: Integer;
+begin
+  for i:=1 to Image1.Width-1 do
+    for j:=1 to Image1.Height-1 do
+    begin
+    grayValueHorizontal := 2*GetRValue(Image1.Canvas.Pixels[i,j+1]) + GetRValue(Image1.Canvas.Pixels[i-1,j+1]) +
+                           GetRValue(Image1.Canvas.Pixels[i+1,j+1]) - 2*GetRValue(Image1.Canvas.Pixels[i,j-1]) -
+                           GetRValue(Image1.Canvas.Pixels[i-1,j-1]) - GetRValue(Image1.Canvas.Pixels[i+1,j-1]);
+
+    grayValueVertical := 2*GetRValue(Image1.Canvas.Pixels[i+1,j]) + GetRValue(Image1.Canvas.Pixels[i+1,j-1]) +
+                         GetRValue(Image1.Canvas.Pixels[i+1,j+1]) - 2*GetRValue(Image1.Canvas.Pixels[i-1,j]) -
+                         GetRValue(Image1.Canvas.Pixels[i-1,j-1]) - GetRValue(Image1.Canvas.Pixels[i-1,j+1]);
+
+    grayValue := grayValueHorizontal + grayValueVertical;
+
+    if grayValue < 0 then grayValue := 0;
+    if grayValue > 255 then grayValue := 255;
+
+    Image2.Canvas.Pixels[i,j] := RGB(grayValue, grayValue, grayValue);
+    end;
 end;
 
 //Salvar imagem de saida

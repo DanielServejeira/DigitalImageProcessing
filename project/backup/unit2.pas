@@ -73,6 +73,13 @@ implementation
 
 { TForm2 }
 
+{------------------------------------------------------------------------------
+  Procedure Name: ExitButtonClick
+  Purpose       : Handles the click event of the Exit button. Closes the application window.
+  Parameters    : Sender - the component that triggered the event (Exit button)
+  Notes         : This procedure is called when the user clicks the Exit button. It closes
+                  the application window, terminating the program.
+------------------------------------------------------------------------------}
 procedure TForm2.ExitButtonClick(Sender: TObject);
 begin
   Close;

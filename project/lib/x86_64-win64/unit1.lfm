@@ -312,6 +312,10 @@ object Form1: TForm1
       end
       object MenuItem35: TMenuItem
         Caption = 'Sobel'
+        object MenuItem39: TMenuItem
+          Caption = 'Hor. + Vert.'
+          OnClick = MenuItem39Click
+        end
         object MenuItem36: TMenuItem
           Caption = 'Horizontal'
           OnClick = MenuItem36Click

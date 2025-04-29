@@ -46,7 +46,9 @@ type
     procedure InputComboBoxChange(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: char);
     procedure Edit1MouseUp(Sender: TObject);
+    procedure Edit1Change(Sender: TObject);
     procedure Edit2Change(Sender: TObject);
+    procedure Edit3Change(Sender: TObject);
     procedure Edit2KeyPress(Sender: TObject; var Key: char);
     procedure Edit2MouseUp(Sender: TObject);
     procedure Edit3KeyPress(Sender: TObject; var Key: char);

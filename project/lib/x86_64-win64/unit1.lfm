@@ -194,124 +194,128 @@ object Form1: TForm1
     object MenuItem5: TMenuItem
       Caption = 'Operação'
       OnClick = MenuItem5Click
-      object MenuItem32: TMenuItem
+      object MenuBilinearizar: TMenuItem
         Caption = 'Bilinearizar'
-        OnClick = MenuItem32Click
+        OnClick = MenuBilinearizarClick
       end
-      object MenuItem6: TMenuItem
+      object MenuConverterCinza: TMenuItem
         Caption = '&Converter para Cinza'
-        OnClick = MenuItem6Click
+        OnClick = MenuConverterCinzaClick
       end
       object MenuCompressao: TMenuItem
         Caption = 'Compressão de Escala Dinâmica'
         OnClick = MenuCompressaoClick
       end
-      object MenuItem28: TMenuItem
+      object MenuEqualizar: TMenuItem
         Caption = 'Equalizar'
-        OnClick = MenuItem28Click
+        OnClick = MenuEqualizarClick
       end
-      object MenuItem8: TMenuItem
-        Caption = '&Filtro'
-        object MenuItem18: TMenuItem
-          Caption = 'Média (Vizinhança-&4)'
-          OnClick = MenuItem18Click
-        end
-        object MenuItem4: TMenuItem
-          Caption = 'Média (Vizinhança-&8)'
-          OnClick = MenuItem4Click
-        end
-        object MenuItem19: TMenuItem
-          Caption = 'Mediana &3x3'
-          OnClick = MenuItem19Click
-        end
-      end
-      object MenuItem26: TMenuItem
-        Caption = 'Gerar Ruído'
-        OnClick = MenuItem26Click
-        object MenuItem29: TMenuItem
-          Caption = 'Cores Aleatórias'
-          OnClick = MenuItem29Click
-        end
-        object MenuItem30: TMenuItem
-          Caption = 'Sal e Pimenta'
-          OnClick = MenuItem30Click
-        end
-      end
-      object MenuItem23: TMenuItem
-        Caption = 'In&terpolar'
-        object MenuItem24: TMenuItem
-          Caption = 'Vizinho Mais Próximo'
-          OnClick = MenuItem24Click
-        end
-        object MenuItem25: TMenuItem
-          Caption = 'Bilinear'
-          OnClick = MenuItem25Click
-        end
-      end
-      object MenuItem20: TMenuItem
-        Caption = 'In&verter'
-        object MenuItem21: TMenuItem
+      object MenuItemEspelhar: TMenuItem
+        Caption = 'Espelhar'
+        OnClick = MenuItemEspelharClick
+        object MenuItemEspelharHor: TMenuItem
           Caption = 'Horizontal'
-          OnClick = MenuItem21Click
+          OnClick = MenuItemEspelharHorClick
         end
-        object MenuItem22: TMenuItem
+        object MenuEspelharVert: TMenuItem
           Caption = 'Vertical'
-          OnClick = MenuItem22Click
+          OnClick = MenuEspelharVertClick
         end
       end
-      object MenuItem33: TMenuItem
+      object MenuItemFiltro: TMenuItem
+        Caption = '&Filtro'
+        object MenuItemMediaV4: TMenuItem
+          Caption = 'Média (Vizinhança-&4)'
+          OnClick = MenuItemMediaV4Click
+        end
+        object MenuItemMediaV8: TMenuItem
+          Caption = 'Média (Vizinhança-&8)'
+          OnClick = MenuItemMediaV8Click
+        end
+        object MenuMediana3x3: TMenuItem
+          Caption = 'Mediana &3x3'
+          OnClick = MenuMediana3x3Click
+        end
+      end
+      object MenuItemRuido: TMenuItem
+        Caption = 'Gerar Ruído'
+        OnClick = MenuItemRuidoClick
+        object MenuItemRuidoColorido: TMenuItem
+          Caption = 'Cores Aleatórias'
+          OnClick = MenuItemRuidoColoridoClick
+        end
+        object MenuItemRuidoSalPimenta: TMenuItem
+          Caption = 'Sal e Pimenta'
+          OnClick = MenuItemRuidoSalPimentaClick
+        end
+      end
+      object MenuItemInterpolar: TMenuItem
+        Caption = 'In&terpolar'
+        object MenuItemInterpolarVMP: TMenuItem
+          Caption = 'Vizinho Mais Próximo'
+          OnClick = MenuItemInterpolarVMPClick
+        end
+        object MenuItemInterpolarBil: TMenuItem
+          Caption = 'Bilinear'
+          OnClick = MenuItemInterpolarBilClick
+        end
+      end
+      object MenuItemLaplaciano: TMenuItem
         Caption = 'Laplaciano N4(p)'
-        OnClick = MenuItem33Click
+        OnClick = MenuItemLaplacianoClick
       end
-      object MenuItem34: TMenuItem
+      object MenuItemLimiarizar: TMenuItem
         Caption = 'Limiarizar'
-        OnClick = MenuItem34Click
+        OnClick = MenuItemLimiarizarClick
       end
-      object MenuItem7: TMenuItem
+      object MenuItemNegativar: TMenuItem
         Caption = '&Negativar'
-        OnClick = MenuItem7Click
-        object MenuItem16: TMenuItem
+        OnClick = MenuItemNegativarClick
+        object MenuItemNegativarCinza: TMenuItem
           Caption = 'C&inza'
-          OnClick = MenuItem16Click
+          OnClick = MenuItemNegativarCinzaClick
         end
-        object MenuItem17: TMenuItem
+        object MenuItemNegativarColorida: TMenuItem
           Caption = 'C&olorida'
-          OnClick = MenuItem17Click
+          OnClick = MenuItemNegativarColoridaClick
         end
       end
-      object MenuItem38: TMenuItem
+      object MenuItemMagnitude: TMenuItem
         Caption = 'Magnitude'
-        OnClick = MenuItem38Click
+        OnClick = MenuItemMagnitudeClick
       end
-      object MenuItem9: TMenuItem
+      object MenuItemSeparar: TMenuItem
         Caption = 'S&eparar Canal'
-        object MenuItem10: TMenuItem
+        object MenuItemSepararVermelho: TMenuItem
           Caption = 'Vermelho'
-          OnClick = MenuItem10Click
+          OnClick = MenuItemSepararVermelhoClick
         end
-        object MenuItem11: TMenuItem
+        object MenuItemSepararVerde: TMenuItem
           Caption = 'Verde'
-          OnClick = MenuItem11Click
+          OnClick = MenuItemSepararVerdeClick
         end
-        object MenuItem12: TMenuItem
+        object MenuItemSepararAzul: TMenuItem
           Caption = 'Azul'
-          OnClick = MenuItem12Click
+          OnClick = MenuItemSepararAzulClick
         end
-        object MenuItem13: TMenuItem
+        object MenuItemSepararCinzaVermelho: TMenuItem
           Caption = 'Cinza/Vermelho'
-          OnClick = MenuItem13Click
+          OnClick = MenuItemSepararCinzaVermelhoClick
         end
-        object MenuItem14: TMenuItem
+        object MenuItemSepararCinzaVerde: TMenuItem
           Caption = 'Cinza/Verde'
-          OnClick = MenuItem14Click
+          OnClick = MenuItemSepararCinzaVerdeClick
         end
-        object MenuItem15: TMenuItem
+        object MenuItemSepararCinzaAzul: TMenuItem
           Caption = 'Cinza/Azul'
-          OnClick = MenuItem15Click
+          OnClick = MenuItemSepararCinzaAzulClick
         end
       end
       object MenuItem35: TMenuItem
         Caption = 'Sobel'
+        object MenuItem39: TMenuItem
+          Caption = 'Hor. + Vert.'
+        end
         object MenuItem36: TMenuItem
           Caption = 'Horizontal'
           OnClick = MenuItem36Click

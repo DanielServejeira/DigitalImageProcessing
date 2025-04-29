@@ -33,44 +33,45 @@ type
     LabelWarning: TLabel;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
-    MenuItem10: TMenuItem;
-    MenuItem11: TMenuItem;
-    MenuItem12: TMenuItem;
-    MenuItem13: TMenuItem;
-    MenuItem14: TMenuItem;
-    MenuItem15: TMenuItem;
-    MenuItem16: TMenuItem;
-    MenuItem17: TMenuItem;
-    MenuItem18: TMenuItem;
-    MenuItem19: TMenuItem;
+    MenuItemSepararVermelho: TMenuItem;
+    MenuItemSepararVerde: TMenuItem;
+    MenuItemSepararAzul: TMenuItem;
+    MenuItemSepararCinzaVermelho: TMenuItem;
+    MenuItemSepararCinzaVerde: TMenuItem;
+    MenuItemSepararCinzaAzul: TMenuItem;
+    MenuItemNegativarCinza: TMenuItem;
+    MenuItemNegativarColorida: TMenuItem;
+    MenuItemMediaV4: TMenuItem;
+    MenuMediana3x3: TMenuItem;
     MenuItem2: TMenuItem;
-    MenuItem20: TMenuItem;
-    MenuItem21: TMenuItem;
-    MenuItem22: TMenuItem;
-    MenuItem23: TMenuItem;
-    MenuItem24: TMenuItem;
-    MenuItem25: TMenuItem;
-    MenuItem26: TMenuItem;
+    MenuItemEspelhar: TMenuItem;
+    MenuItemEspelharHor: TMenuItem;
+    MenuEspelharVert: TMenuItem;
+    MenuItemInterpolar: TMenuItem;
+    MenuItemInterpolarVMP: TMenuItem;
+    MenuItemInterpolarBil: TMenuItem;
+    MenuItemRuido: TMenuItem;
     MenuItem27: TMenuItem;
-    MenuItem28: TMenuItem;
-    MenuItem29: TMenuItem;
+    MenuEqualizar: TMenuItem;
+    MenuItemRuidoColorido: TMenuItem;
     MenuItem3: TMenuItem;
-    MenuItem30: TMenuItem;
+    MenuItemRuidoSalPimenta: TMenuItem;
     MenuItem31: TMenuItem;
-    MenuItem32: TMenuItem;
-    MenuItem33: TMenuItem;
-    MenuItem34: TMenuItem;
+    MenuBilinearizar: TMenuItem;
+    MenuItemLaplaciano: TMenuItem;
+    MenuItemLimiarizar: TMenuItem;
     MenuItem35: TMenuItem;
     MenuItem36: TMenuItem;
     MenuItem37: TMenuItem;
-    MenuItem38: TMenuItem;
+    MenuItemMagnitude: TMenuItem;
     MenuCompressao: TMenuItem;
-    MenuItem4: TMenuItem;
+    MenuItem39: TMenuItem;
+    MenuItemMediaV8: TMenuItem;
     MenuItem5: TMenuItem;
-    MenuItem6: TMenuItem;
-    MenuItem7: TMenuItem;
-    MenuItem8: TMenuItem;
-    MenuItem9: TMenuItem;
+    MenuConverterCinza: TMenuItem;
+    MenuItemNegativar: TMenuItem;
+    MenuItemFiltro: TMenuItem;
+    MenuItemSeparar: TMenuItem;
     OpenDialog1: TOpenDialog;
     SaveDialog1: TSaveDialog;
     Separator1: TMenuItem;
@@ -87,39 +88,40 @@ type
       );
     procedure Image2MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
-    procedure MenuItem10Click(Sender: TObject);
-    procedure MenuItem11Click(Sender: TObject);
-    procedure MenuItem12Click(Sender: TObject);
-    procedure MenuItem13Click(Sender: TObject);
-    procedure MenuItem14Click(Sender: TObject);
-    procedure MenuItem15Click(Sender: TObject);
-    procedure MenuItem16Click(Sender: TObject);
-    procedure MenuItem17Click(Sender: TObject);
-    procedure MenuItem18Click(Sender: TObject);
-    procedure MenuItem19Click(Sender: TObject);
+    procedure MenuItemSepararVermelhoClick(Sender: TObject);
+    procedure MenuItemSepararVerdeClick(Sender: TObject);
+    procedure MenuItemSepararAzulClick(Sender: TObject);
+    procedure MenuItemSepararCinzaVermelhoClick(Sender: TObject);
+    procedure MenuItemSepararCinzaVerdeClick(Sender: TObject);
+    procedure MenuItemSepararCinzaAzulClick(Sender: TObject);
+    procedure MenuItemNegativarCinzaClick(Sender: TObject);
+    procedure MenuItemNegativarColoridaClick(Sender: TObject);
+    procedure MenuItemMediaV4Click(Sender: TObject);
+    procedure MenuMediana3x3Click(Sender: TObject);
     procedure MenuItem1Click(Sender: TObject);
-    procedure MenuItem21Click(Sender: TObject);
-    procedure MenuItem22Click(Sender: TObject);
-    procedure MenuItem24Click(Sender: TObject);
-    procedure MenuItem25Click(Sender: TObject);
-    procedure MenuItem26Click(Sender: TObject);
+    procedure MenuItemEspelharClick(Sender: TObject);
+    procedure MenuItemEspelharHorClick(Sender: TObject);
+    procedure MenuEspelharVertClick(Sender: TObject);
+    procedure MenuItemInterpolarVMPClick(Sender: TObject);
+    procedure MenuItemInterpolarBilClick(Sender: TObject);
+    procedure MenuItemRuidoClick(Sender: TObject);
     procedure MenuItem27Click(Sender: TObject);
-    procedure MenuItem28Click(Sender: TObject);
-    procedure MenuItem29Click(Sender: TObject);
+    procedure MenuEqualizarClick(Sender: TObject);
+    procedure MenuItemRuidoColoridoClick(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
-    procedure MenuItem30Click(Sender: TObject);
-    procedure MenuItem32Click(Sender: TObject);
-    procedure MenuItem33Click(Sender: TObject);
-    procedure MenuItem34Click(Sender: TObject);
+    procedure MenuItemRuidoSalPimentaClick(Sender: TObject);
+    procedure MenuBilinearizarClick(Sender: TObject);
+    procedure MenuItemLaplacianoClick(Sender: TObject);
+    procedure MenuItemLimiarizarClick(Sender: TObject);
     procedure MenuItem36Click(Sender: TObject);
     procedure MenuItem37Click(Sender: TObject);
-    procedure MenuItem38Click(Sender: TObject);
+    procedure MenuItemMagnitudeClick(Sender: TObject);
     procedure MenuCompressaoClick(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
-    procedure MenuItem4Click(Sender: TObject);
+    procedure MenuItemMediaV8Click(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
-    procedure MenuItem6Click(Sender: TObject);
-    procedure MenuItem7Click(Sender: TObject);
+    procedure MenuConverterCinzaClick(Sender: TObject);
+    procedure MenuItemNegativarClick(Sender: TObject);
     procedure MenuItem8Click(Sender: TObject);
   private
     magnitudeArray: array of array of Double;
@@ -144,8 +146,13 @@ begin
 
 end;
 
-//Operacao inverter horizontal
-procedure TForm1.MenuItem21Click(Sender: TObject);
+procedure TForm1.MenuItemEspelharClick(Sender: TObject);
+begin
+
+end;
+
+//Operacao espelhar horizontal
+procedure TForm1.MenuItemEspelharHorClick(Sender: TObject);
 var
   i, j: Integer;
 begin
@@ -156,8 +163,8 @@ begin
     end;
 end;
 
-//Operacao inverter vertical
-procedure TForm1.MenuItem22Click(Sender: TObject);
+//Operacao espelhar vertical
+procedure TForm1.MenuEspelharVertClick(Sender: TObject);
 var
   i, j: Integer;
 begin
@@ -169,7 +176,7 @@ begin
 end;
 
 //Operacao interpolacao vizinho mais proximo (10% maior)
-procedure TForm1.MenuItem24Click(Sender: TObject);
+procedure TForm1.MenuItemInterpolarVMPClick(Sender: TObject);
 var
   newWidth,newHeight, x, y, srcX, srcY: Integer;
   scaleX, scaleY: Double;
@@ -201,7 +208,7 @@ begin
 end;
 
 //Operacao interpolacao bilinear (10% maior)
-procedure TForm1.MenuItem25Click(Sender: TObject);
+procedure TForm1.MenuItemInterpolarBilClick(Sender: TObject);
 var
   newWidth, newHeight, x, y: Integer;
   srcX, srcY: Double;
@@ -267,7 +274,7 @@ begin
   end;
 end;
 
-procedure TForm1.MenuItem26Click(Sender: TObject);
+procedure TForm1.MenuItemRuidoClick(Sender: TObject);
 begin
 
 end;
@@ -281,7 +288,7 @@ end;
 
 
 //Operacao equalizar
-procedure TForm1.MenuItem28Click(Sender: TObject);
+procedure TForm1.MenuEqualizarClick(Sender: TObject);
 var
   i, j, gray: Integer;
   hist, acumFreq, newValue: array[0..255] of Integer;
@@ -322,7 +329,7 @@ begin
 end;
 
 //Operacao gerar ruido cores aleatorias (10 por cento)
-procedure TForm1.MenuItem29Click(Sender: TObject);
+procedure TForm1.MenuItemRuidoColoridoClick(Sender: TObject);
 var
   r, g, b, i, j, size, totalNoise, x, y: Integer;
   pixelColor: TColor;
@@ -554,7 +561,7 @@ begin
 end;
 
 //Operacao separar canal vermelho
-procedure TForm1.MenuItem10Click(Sender: TObject);
+procedure TForm1.MenuItemSepararVermelhoClick(Sender: TObject);
 var
   r, i, j: Integer;
   pixelColor : TColor;
@@ -569,7 +576,7 @@ begin
 end;
 
 //Operacao separar canal verde
-procedure TForm1.MenuItem11Click(Sender: TObject);
+procedure TForm1.MenuItemSepararVerdeClick(Sender: TObject);
 var
   g, i, j: Integer;
   pixelColor : TColor;
@@ -584,7 +591,7 @@ begin
 end;
 
 //Operacao separar canal azul
-procedure TForm1.MenuItem12Click(Sender: TObject);
+procedure TForm1.MenuItemSepararAzulClick(Sender: TObject);
 var
   b, i, j: Integer;
   pixelColor : TColor;
@@ -599,7 +606,7 @@ begin
 end;
 
 //Operacao separar canal cinza/vermelho
-procedure TForm1.MenuItem13Click(Sender: TObject);
+procedure TForm1.MenuItemSepararCinzaVermelhoClick(Sender: TObject);
 var
   r, i, j: Integer;
   pixelColor : TColor;
@@ -614,7 +621,7 @@ begin
 end;
 
 //Operacao separar canal cinza/verde
-procedure TForm1.MenuItem14Click(Sender: TObject);
+procedure TForm1.MenuItemSepararCinzaVerdeClick(Sender: TObject);
 var
   g, i, j: Integer;
   pixelColor : TColor;
@@ -629,7 +636,7 @@ begin
 end;
 
 //Operacao separar canal cinza/azul
-procedure TForm1.MenuItem15Click(Sender: TObject);
+procedure TForm1.MenuItemSepararCinzaAzulClick(Sender: TObject);
 var
   b, i, j: Integer;
   pixelColor : TColor;
@@ -644,7 +651,7 @@ begin
 end;
 
 //Operacao negativa cinza
-procedure TForm1.MenuItem16Click(Sender: TObject);
+procedure TForm1.MenuItemNegativarCinzaClick(Sender: TObject);
 var
   r, g, b, i, j, gray: Integer;
   pixelColor: TColor;
@@ -665,7 +672,7 @@ end;
 
 
 //Operacao negativa pixelColorida
-procedure TForm1.MenuItem17Click(Sender: TObject);
+procedure TForm1.MenuItemNegativarColoridaClick(Sender: TObject);
 var
   r, g, b, i, j: Integer;
   pixelColor : TColor;
@@ -682,7 +689,7 @@ begin
 end;
 
 //Operacao filtro media (vizinhanca 4)
-procedure TForm1.MenuItem18Click(Sender: TObject);
+procedure TForm1.MenuItemMediaV4Click(Sender: TObject);
 var
   somaR, somaG, somaB: Integer;
   i, j: Integer;
@@ -723,7 +730,7 @@ begin
 end;
 
 //Operacao filtro mediana 3x3
-procedure TForm1.MenuItem19Click(Sender: TObject);
+procedure TForm1.MenuMediana3x3Click(Sender: TObject);
 var
   i, j, k, l, aux: Integer;
   vetor: array[0..8] of TColor;
@@ -762,7 +769,7 @@ begin
 end;
 
 //Operacao gerar ruido sal e pimenta (10 por cento)
-procedure TForm1.MenuItem30Click(Sender: TObject);
+procedure TForm1.MenuItemRuidoSalPimentaClick(Sender: TObject);
 var
   i, j, size, totalNoise, x, y: Integer;
   pixelColor: TColor;
@@ -791,7 +798,7 @@ begin
 end;
 
 //Operacao bilinearizar
-procedure TForm1.MenuItem32Click(Sender: TObject);
+procedure TForm1.MenuBilinearizarClick(Sender: TObject);
 var
   i, j, r, g, b: Integer;
   pixelColor: TColor;
@@ -813,7 +820,7 @@ begin
 end;
 
 //Operacao laplaciano
-procedure TForm1.MenuItem33Click(Sender: TObject);
+procedure TForm1.MenuItemLaplacianoClick(Sender: TObject);
 var
   i, j: Integer;
 begin
@@ -829,7 +836,7 @@ begin
 end;
 
 //Operacao limiarizar
-procedure TForm1.MenuItem34Click(Sender: TObject);
+procedure TForm1.MenuItemLimiarizarClick(Sender: TObject);
   begin
     LabelMagnitude.Visible := false;
     LabelDirection.Visible := false;
@@ -882,7 +889,7 @@ begin
 end;
 
 //Operacao magnitude
-procedure TForm1.MenuItem38Click(Sender: TObject);
+procedure TForm1.MenuItemMagnitudeClick(Sender: TObject);
 var
   i, j, x, y, z, grayValue: Integer;
   gx, gy, mag: Double;
@@ -973,7 +980,7 @@ begin
 end;
 
 //Operacao filtro media (vizinhanca 8)
-procedure TForm1.MenuItem4Click(Sender: TObject);
+procedure TForm1.MenuItemMediaV8Click(Sender: TObject);
 var
   somaR, somaG, somaB, i, j: Integer;
   pixelColor: TColor;
@@ -1050,7 +1057,7 @@ begin
 end;
 
 //Operacao converte para cinza
-procedure TForm1.MenuItem6Click(Sender: TObject);
+procedure TForm1.MenuConverterCinzaClick(Sender: TObject);
 var
   r, g, b, gray, i, j: Integer;
   pixelColor: TColor;
@@ -1067,7 +1074,7 @@ begin
     end;
   end;
 
-procedure TForm1.MenuItem7Click(Sender: TObject);
+procedure TForm1.MenuItemNegativarClick(Sender: TObject);
 begin
 
 end;

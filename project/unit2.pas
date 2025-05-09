@@ -25,6 +25,12 @@ type
   TForm2 = class(TForm)
     ConvertButton: TButton;
     ExitButton: TButton;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label1: TLabel;
     ResetButton: TButton;
     InputComboBox: TComboBox;
     OutputComboBox: TComboBox;
@@ -36,12 +42,13 @@ type
     Edit6: TEdit;
     InputLabel: TLabel;
     OutputLabel: TLabel;
-    Label3: TLabel;
+    LabelWarning: TLabel;
     TrackBar1: TTrackBar;
     TrackBar2: TTrackBar;
     TrackBar3: TTrackBar;
     procedure ConvertButtonClick(Sender: TObject);
     procedure ExitButtonClick(Sender: TObject);
+    procedure OutputComboBoxChange(Sender: TObject);
     procedure ResetButtonClick(Sender: TObject);
     procedure InputComboBoxChange(Sender: TObject);
     procedure Edit1KeyPress(Sender: TObject; var Key: char);
@@ -88,6 +95,31 @@ begin
 end;
 
 {------------------------------------------------------------------------------
+  Procedure Name: OutputComboBoxChange
+  Purpose       : Updates the captions of Label4, Label5, and Label6 according
+                  to the selected color model in the OutputComboBox.
+  Parameters    : Sender - the component that triggered the event (OutputComboBox)
+  Notes         : This procedure ensures that the output labels reflect the
+                  chosen output color model (RGB or HSV) by displaying the
+                  corresponding channel names (R/G/B or H/S/V).
+------------------------------------------------------------------------------}
+procedure TForm2.OutputComboBoxChange(Sender: TObject);
+begin
+  if OutputComboBox.Text = 'RGB' then
+  begin
+    Label4.Caption := 'R';
+    Label5.Caption := 'G';
+    Label6.Caption := 'B'
+  end
+  else if OutputComboBox.Text = 'HSV' then
+  begin
+    Label4.Caption := 'H';
+    Label5.Caption := 'S';
+    Label6.Caption := 'V';
+  end;
+end;
+
+{------------------------------------------------------------------------------
   Procedure Name: ResetButtonClick
   Purpose       : Resets all input and output fields to their default values.
                   Sets all the text fields (Edit1, Edit2, Edit3, Edit4, Edit5, Edit6)
@@ -111,17 +143,31 @@ end;
 {------------------------------------------------------------------------------
   Procedure Name: InputComboBoxChange
   Purpose       : Resets the positions of TrackBar1, TrackBar2, and TrackBar3
-                  to 0 whenever the user changes the selected option in the
-                  InputComboBox.
+                  to 0 and updates label captions according to the selected
+                  color model in the InputComboBox.
   Parameters    : Sender - the component that triggered the event (InputComboBox)
-  Notes         : This procedure ensures that the trackbars are reset when the
-                  input model (RGB or HSV) is changed.
+  Notes         : This procedure ensures that the UI reflects the selected
+                  input color model (RGB or HSV) by resetting the trackbars and
+                  updating Label1, Label2, and Label3 captions to R/G/B or H/S/V.
 ------------------------------------------------------------------------------}
 procedure TForm2.InputComboBoxChange(Sender: TObject);
 begin
   TrackBar1.Position := 0;
   TrackBar2.Position := 0;
   TrackBar3.Position := 0;
+
+  if InputComboBox.Text = 'RGB' then
+  begin
+    Label1.Caption := 'R';
+    Label2.Caption := 'G';
+    Label3.Caption := 'B'
+  end
+  else if InputComboBox.Text = 'HSV' then
+  begin
+    Label1.Caption := 'H';
+    Label2.Caption := 'S';
+    Label3.Caption := 'V';
+  end;
 end;
 
 {------------------------------------------------------------------------------
@@ -178,6 +224,7 @@ begin
   if Key = #13 then
   begin
     Key := #0;
+    Trackbar2.Position := StrToInt(Edit2.Text);
     Edit3.SetFocus;
   end;
 end;
@@ -215,6 +262,7 @@ begin
   if Key = #13 then
   begin
     Key := #0;
+    Trackbar3.Position := StrToInt(Edit3.Text);
     ConvertButton.SetFocus;
   end;
 end;
@@ -393,7 +441,7 @@ begin
      (Trim(Edit2.Text) = ',') or (Trim(Edit2.Text) = ',,') or (Trim(Edit2.Text) = ',,,') or (Trim(Edit1.Text) = ',,,,') or
      (Trim(Edit3.Text) = ',') or (Trim(Edit3.Text) = ',,') or (Trim(Edit3.Text) = ',,,') or (Trim(Edit1.Text) = ',,,,') then
   begin
-    Label3.Caption := 'Valor de entrada inválido.';
+    LabelWarning.Caption := 'Valor de entrada inválido.';
     Exit;
   end;
 
@@ -404,11 +452,11 @@ begin
   if ((inputComboBoxText = 'RGB') and ((text1 > 255) or (text2 > 255) or (text3 > 255))) or
      ((inputComboBoxText = 'HSV') and ((text1 > 360) or (text2 > 100) or (text3 > 100))) then
   begin
-    Label3.Caption := 'Valor de entrada inválido.';
+    LabelWarning.Caption := 'Valor de entrada inválido.';
   end
   else
   begin
-    Label3.Caption := '';
+    LabelWarning.Caption := '';
 
     if (inputComboBoxText = 'RGB') and (outputComboBoxText = 'HSV') then
     begin

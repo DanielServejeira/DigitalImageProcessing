@@ -33,6 +33,12 @@ type
     LabelWarning: TLabel;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
+    MenuItem4: TMenuItem;
+    MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
+    MenuItem8: TMenuItem;
+    MenuItem9: TMenuItem;
+    MenuItemDCT: TMenuItem;
     MenuItemSepararVermelho: TMenuItem;
     MenuItemSepararVerde: TMenuItem;
     MenuItemSepararAzul: TMenuItem;
@@ -88,6 +94,10 @@ type
       );
     procedure Image2MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
+    procedure MenuItem6Click(Sender: TObject);
+    procedure MenuItem7Click(Sender: TObject);
+    procedure MenuItem9Click(Sender: TObject);
+    procedure MenuItemDCTClick(Sender: TObject);
     procedure MenuItemSepararVermelhoClick(Sender: TObject);
     procedure MenuItemSepararVerdeClick(Sender: TObject);
     procedure MenuItemSepararAzulClick(Sender: TObject);
@@ -118,7 +128,6 @@ type
     procedure MenuItemMagnitudeClick(Sender: TObject);
     procedure MenuCompressaoClick(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
-    procedure MenuItemInverterCorClick(Sender: TObject);
     procedure MenuItemMediaV8Click(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
     procedure MenuConverterCinzaClick(Sender: TObject);
@@ -127,6 +136,7 @@ type
   private
     magnitudeArray: array of array of Double;
     directionArray: array of array of Integer;
+    dct: array of array of Integer;
     activatedMag: Boolean;
     c, gama: Double;
   public
@@ -559,6 +569,135 @@ begin
   begin
     EditDirection.Caption := Format('%d°', [directionArray[x, y]]);
   end;
+end;
+
+//Operacao restaurar maximo
+procedure TForm1.MenuItem6Click(Sender: TObject);
+var
+  i, j, k, l, maxValue: Integer;
+  pixelColor : TColor;
+begin
+  for j:=1 to Image1.Height-1 do
+   for i:=1 to Image1.Width-1 do
+    begin
+      maxValue := 0;
+      for l:=j-1 to j+1 do
+        for k:=i-1 to i+1 do
+        begin
+          pixelColor := Image1.Canvas.Pixels[k,l];
+
+          if GetRValue(pixelColor) > maxValue then
+          begin
+            maxValue := GetRValue(pixelColor);
+          end;
+        end;
+
+      Image2.Canvas.Pixels[i,j] := rgb(maxValue, maxValue, maxValue);
+    end;
+end;
+
+//Operacao restaurar minimo
+procedure TForm1.MenuItem7Click(Sender: TObject);
+var
+  i, j, k, l, minValue: Integer;
+  pixelColor : TColor;
+begin
+  for j:=1 to Image1.Height-1 do
+   for i:=1 to Image1.Width-1 do
+    begin
+      minValue := 255;
+      for l:=j-1 to j+1 do
+        for k:=i-1 to i+1 do
+        begin
+          pixelColor := Image1.Canvas.Pixels[k,l];
+
+          if GetRValue(pixelColor) < minValue then
+          begin
+            minValue := GetRValue(pixelColor);
+          end;
+        end;
+
+      Image2.Canvas.Pixels[i,j] := rgb(minValue, minValue, minValue);
+    end;
+end;
+
+//Operacao Laplaciano da Gaussiana
+procedure TForm1.MenuItem9Click(Sender: TObject);
+var
+  i, j, k, l, sum, count, value, maxValue, minValue: Integer;
+  temp, smooth: array of array of Integer;
+begin
+  SetLength(smooth, Image1.Width, Image1.Height);
+  SetLength(temp, Image1.Width, Image1.Height);
+  minValue := 255;
+  maxValue := 0;
+
+  for j := 2 to Image1.Height - 3 do
+    for i := 2 to Image1.Width - 3 do
+    begin
+      value :=
+        GetRValue(Image1.Canvas.Pixels[i-1, j]) +
+        GetRValue(Image1.Canvas.Pixels[i+1, j]) +
+        GetRValue(Image1.Canvas.Pixels[i, j-1]) +
+        GetRValue(Image1.Canvas.Pixels[i, j+1]) -
+        4 * GetRValue(Image1.Canvas.Pixels[i, j]);
+
+      if value > 255 then value := 255;
+      if value < 0 then value := 0;
+
+      temp[i, j] := value;
+
+      if value > maxValue then maxValue := value;
+      if value < minValue then minValue := value;
+    end;
+
+  for j := 2 to Image1.Height - 3 do
+    for i := 2 to Image1.Width - 3 do
+    begin
+      value := Round(255 * (temp[i, j] - minValue) / (maxValue - minValue));
+
+      Image2.Canvas.Pixels[i, j] := RGB(value, value, value);
+    end;
+end;
+
+//Operacao transformada cosseno discreta
+procedure TForm1.MenuItemDCTClick(Sender: TObject);
+var
+  i, j, k, l, grayPixel: Integer;
+  ci, cj, dct1, sum: Double;
+begin
+  SetLength(dct, Image1.Width, Image1.Height);
+
+  for i:=0 to Image1.Width - 1 do
+    for j:=0 to Image1.Height - 1 do
+    begin
+      if i=0 then ci := 1 / sqrt(Image1.Width)
+      else ci := sqrt(2) / sqrt(Image1.Width);
+
+      if j=0 then cj := 1 / sqrt(Image1.Height)
+      else cj := sqrt(2) / sqrt(Image1.Height);
+
+      sum := 0;
+
+      for k:=0 to Image1.Width do
+        for l:=0 to Image1.Height do
+        begin
+          dct1 := GetRValue(Image1.Canvas.Pixels[k, l]) *
+                  cos((2*k + 1)*i*Pi / (2*Image1.Width)) *
+                  cos((2*l + 1)*j*Pi / (2*Image1.Height));
+
+          sum := sum + dct1;
+        end;
+
+      dct[i,j] := round(ci * cj * sum);
+   end;
+
+  for i:=0 to Image1.Width do
+    for j:=0 to Image1.Height do
+    begin
+      grayPixel := Round(dct[i,j]);
+      Image2.Canvas.Pixels[i,j] := RGB(grayPixel, grayPixel, grayPixel);
+    end;
 end;
 
 //Operacao separar canal vermelho
@@ -1080,9 +1219,35 @@ begin
 
 end;
 
+//Operacao restaura ponto medio
 procedure TForm1.MenuItem8Click(Sender: TObject);
+var
+  i, j, k, l, maxValue, minValue, midPoint: Integer;
+  pixelColor : TColor;
 begin
+  for j:=1 to Image1.Height-1 do
+   for i:=1 to Image1.Width-1 do
+    begin
+      maxValue := 0;
+      minValue := 255;
+      for l:=j-1 to j+1 do
+        for k:=i-1 to i+1 do
+        begin
+          pixelColor := Image1.Canvas.Pixels[k,l];
 
+          if GetRValue(pixelColor) > maxValue then
+          begin
+            maxValue := GetRValue(pixelColor);
+          end;
+          if GetRValue(pixelColor) < minValue then
+          begin
+            minValue := GetRValue(pixelColor);
+          end;
+        end;
+
+      midPoint := round((maxValue+minValue)/2);
+      Image2.Canvas.Pixels[i,j] := rgb(midPoint, midPoint, midPoint);
+    end;
   end;
 
 end.

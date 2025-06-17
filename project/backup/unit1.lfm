@@ -325,6 +325,29 @@ object Form1: TForm1
           OnClick = MenuItem37Click
         end
       end
+      object MenuItemDCT: TMenuItem
+        Caption = 'Transformada Cosseno Discreta'
+        OnClick = MenuItemDCTClick
+      end
+      object MenuItem4: TMenuItem
+        Caption = 'Restaurar'
+        object MenuItem6: TMenuItem
+          Caption = 'Máximo'
+          OnClick = MenuItem6Click
+        end
+        object MenuItem7: TMenuItem
+          Caption = 'Mínimo'
+          OnClick = MenuItem7Click
+        end
+        object MenuItem8: TMenuItem
+          Caption = 'Ponto Médio'
+          OnClick = MenuItem8Click
+        end
+      end
+      object MenuItem9: TMenuItem
+        Caption = 'Laplaciano da Gaussiana'
+        OnClick = MenuItem9Click
+      end
     end
     object MenuItem27: TMenuItem
       Caption = '&Converter Sistemas de Cor'
